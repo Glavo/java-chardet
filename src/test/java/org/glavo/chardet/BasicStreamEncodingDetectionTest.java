@@ -3,9 +3,10 @@ package org.glavo.chardet;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -68,10 +69,10 @@ public class BasicStreamEncodingDetectionTest {
 	}
 
 	private DetectedCharset getFileEncoding(String testFileName) throws IOException {
-		File file = new File("src/test/resources/" + testFileName);
+		Path file = Paths.get("src/test/resources/" + testFileName);
 
 		try (EncodingDetectorInputStream edis = new EncodingDetectorInputStream(
-				new BufferedInputStream(Files.newInputStream(file.toPath())));
+				new BufferedInputStream(Files.newInputStream(file)));
 				EncodingDetectorOutputStream edos = new EncodingDetectorOutputStream(
 						NullOutputStream.NULL_OUTPUT_STREAM)) {
 			byte[] buffer = new byte[1024];

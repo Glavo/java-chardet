@@ -3,10 +3,11 @@ package org.glavo.chardet;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,7 +18,7 @@ public class Bug20LatinDetectedAsMaccyrillicTest {
 	@Test
 	@Disabled("Bug not fixed yet")
 	public void testFile() throws IOException {
-		File testFile = new File("src/test/resources/bug20-example-latin.txt");
+		Path testFile = Paths.get("src/test/resources/bug20-example-latin.txt");
 		DetectedCharset originalEncoding = UniversalDetector.detectCharset(testFile);
 		assertEquals(DetectedCharset.WINDOWS_1252, originalEncoding);
 	}

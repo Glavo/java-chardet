@@ -2,6 +2,8 @@ package org.glavo.chardet.example;
 
 import org.glavo.chardet.ReaderFactory;
 
+import java.nio.file.Paths;
+
 public class TestCreateReaderFromFile {
 	
 	public static void main (String[] args) throws java.io.IOException {
@@ -9,15 +11,13 @@ public class TestCreateReaderFromFile {
 			System.err.println("Usage: java TestCreateReaderFromFile FILENAME");
 			System.exit(1);
 		}
-	
+
 		java.io.Reader reader = null;
-		try {
-			java.io.File file = new java.io.File(args[0]);
-			reader = ReaderFactory.createBufferedReader(file);
-			
+        //noinspection TryFinallyCanBeTryWithResources
+        try {
+			reader = ReaderFactory.createBufferedReader(Paths.get(args[0]));
 			// Do whatever you want with the reader
-		}
-		finally {
+		} finally {
 			if (reader != null) {
 				reader.close();
 			}

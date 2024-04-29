@@ -129,9 +129,9 @@ public class Latin1Prober extends CharsetProber {
 
 		float confidence;
 		int total = 0;
-		for (int i = 0; i < this.freqCounter.length; ++i) {
-			total += this.freqCounter[i];
-		}
+        for (int c : this.freqCounter) {
+            total += c;
+        }
 
 		if (total <= 0) {
 			confidence = 0.0f;

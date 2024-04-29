@@ -52,17 +52,16 @@ public final class ReaderFactory {
      * @return BufferedReader for the file with the correct encoding
      * @throws IOException if some I/O error occurs
      */
-    public static BufferedReader createBufferedReader(File file, Charset defaultCharset) throws IOException {
+    public static BufferedReader createBufferedReader(Path file, Charset defaultCharset) throws IOException {
         Charset cs = Objects.requireNonNull(defaultCharset, "defaultCharset must be not null");
         DetectedCharset detectedEncoding = UniversalDetector.detectCharset(file);
         if (detectedEncoding != null) {
             cs = detectedEncoding.getCharset();
         }
         if (!cs.name().contains("UTF")) {
-            return Files.newBufferedReader(file.toPath(), cs);
+            return Files.newBufferedReader(file, cs);
         }
-        Path path = file.toPath();
-        return new BufferedReader(new InputStreamReader(new UnicodeBOMInputStream(new BufferedInputStream(Files.newInputStream(path))), cs));
+        return new BufferedReader(new InputStreamReader(new UnicodeBOMInputStream(new BufferedInputStream(Files.newInputStream(file))), cs));
     }
 
     /**
@@ -73,7 +72,7 @@ public final class ReaderFactory {
      * @return BufferedReader for the file with the correct encoding
      * @throws IOException if some I/O error occurs
      */
-    public static BufferedReader createBufferedReader(File file) throws IOException {
+    public static BufferedReader createBufferedReader(Path file) throws IOException {
         return createBufferedReader(file, StandardCharsets.UTF_8);
     }
 

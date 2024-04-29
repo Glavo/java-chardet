@@ -2,8 +2,8 @@ package org.glavo.chardet;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,6 +21,6 @@ public class GB18030SamplesTest {
 
 	private DetectedCharset getFileEncoding(String testFileName) throws IOException {
 		String fileName = "src/test/resources/" + testFileName;
-		return UniversalDetector.detectCharset(new File(fileName));
+		return UniversalDetector.detectCharset(Paths.get(fileName));
 	}
 }

@@ -209,11 +209,11 @@ public final class UniversalDetector {
                 this.detectedCharset = this.escCharsetProber.getCharset();
             }
         } else if (this.inputState == InputState.HIGHBYTE) {
-            for (int i=0; i<this.probers.length; ++i) {
-                st = this.probers[i].handleData(buf, offset, length);
+            for (CharsetProber prober : this.probers) {
+                st = prober.handleData(buf, offset, length);
                 if (st == CharsetProber.ProbingState.FOUND_IT) {
                     this.done = true;
-                    this.detectedCharset = this.probers[i].getCharset();
+                    this.detectedCharset = prober.getCharset();
                     return;
                 }
             }
@@ -305,8 +305,7 @@ public final class UniversalDetector {
             // do nothing
         } else if (this.inputState == InputState.PURE_ASCII && this.onlyPrintableASCII) {
         	this.detectedCharset = DetectedCharset.US_ASCII;
-        }
-        else {
+        } else {
             // do nothing
         }
     }
@@ -325,10 +324,10 @@ public final class UniversalDetector {
         if (this.escCharsetProber != null) {
             this.escCharsetProber.reset();
         }
-        
-        for (int i=0; i<this.probers.length; ++i) {
-            if (this.probers[i] != null) {
-                this.probers[i].reset();
+
+        for (CharsetProber prober : this.probers) {
+            if (prober != null) {
+                prober.reset();
             }
         }
     }

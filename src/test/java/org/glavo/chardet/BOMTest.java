@@ -3,8 +3,8 @@ package org.glavo.chardet;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,8 +29,7 @@ public class BOMTest {
 
 	private String getFirstLine(String testFileName) throws IOException {
 		String fileName = "src/test/resources/" + testFileName;
-		File file = new File(fileName);
-		try (BufferedReader reader = ReaderFactory.createBufferedReader(file)) {
+		try (BufferedReader reader = ReaderFactory.createBufferedReader(Paths.get(fileName))) {
 			// return first line
 			return reader.readLine();
 		}
