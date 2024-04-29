@@ -22,7 +22,6 @@ public class TestCreateReaderFromFile {
 				reader.close();
 			}
 		}
-		
 	}
 
 }

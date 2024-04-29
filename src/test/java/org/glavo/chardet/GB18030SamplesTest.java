@@ -11,18 +11,15 @@ public class GB18030SamplesTest {
 
 	@Test
 	public void testGB18030Sample() throws IOException {
-
-		assertEquals("GB18030", getFileEncoding("gb2312-sample.txt"));
+		assertEquals(DetectedCharset.GB18030, getFileEncoding("gb2312-sample.txt"));
 	}
 
 	@Test
 	public void testGBKSample() throws IOException {
-
-		assertEquals("GB18030", getFileEncoding("gbk-sample.txt"));
+		assertEquals(DetectedCharset.GB18030, getFileEncoding("gbk-sample.txt"));
 	}
 
-	private String getFileEncoding(String testFileName) throws IOException {
-
+	private DetectedCharset getFileEncoding(String testFileName) throws IOException {
 		String fileName = "src/test/resources/" + testFileName;
 		return UniversalDetector.detectCharset(new File(fileName));
 	}

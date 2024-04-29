@@ -40,7 +40,7 @@ package org.glavo.chardet.prober.sequence;
 import org.glavo.chardet.DetectedCharset;
 
 
-public class Win1251Model extends CyrillicModel {
+public final class Win1251Model extends CyrillicModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ public class Win1251Model extends CyrillicModel {
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////
-    private static short[] win1251CharToOrderMap = new short[] {
+    private static final short[] win1251CharToOrderMap = new short[] {
         255,255,255,255,255,255,255,255,255,255,254,255,255,254,255,255,  //00
         255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,  //10
         253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,  //20

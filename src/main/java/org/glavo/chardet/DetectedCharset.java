@@ -122,10 +122,10 @@ public final class DetectedCharset {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof DetectedCharset that)) {
+        if (!(o instanceof DetectedCharset)) {
             return false;
         }
-        return name.equals(that.name);
+        return name.equals(((DetectedCharset) o).name);
     }
 
     @Override

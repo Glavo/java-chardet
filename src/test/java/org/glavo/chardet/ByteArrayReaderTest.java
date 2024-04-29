@@ -14,7 +14,6 @@ public class ByteArrayReaderTest {
 
 	@Test
 	public void utf8() throws IOException {
-
 		try (BufferedReader bufferedReader = ReaderFactory.createBufferedReader(
 				TEST_STRING.getBytes(StandardCharsets.UTF_8))) {
 			assertEquals(TEST_STRING, bufferedReader.readLine());
@@ -23,7 +22,6 @@ public class ByteArrayReaderTest {
 
 	@Test
 	public void ISO_8859_1() throws IOException {
-
 		try (BufferedReader bufferedReader = ReaderFactory.createBufferedReader(
 				TEST_STRING.getBytes(StandardCharsets.ISO_8859_1))) {
 			assertEquals(TEST_STRING, bufferedReader.readLine());

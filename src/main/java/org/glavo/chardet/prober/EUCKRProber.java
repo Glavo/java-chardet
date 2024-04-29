@@ -47,12 +47,12 @@ public class EUCKRProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private CodingStateMachine          codingSM;
-    private ProbingState                state;
+    private final CodingStateMachine            codingSM;
+    private ProbingState                        state;
     
-    private EUCKRDistributionAnalysis distributionAnalyzer;
+    private final EUCKRDistributionAnalysis     distributionAnalyzer;
     
-    private byte[]                      lastChar;
+    private final byte[]                        lastChar;
 
     private static final SMModel smModel = new EUCKRSMModel();
 

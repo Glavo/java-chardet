@@ -52,9 +52,9 @@ public class Big5Prober extends CharsetProber {
     private CodingStateMachine codingSM;
     private ProbingState                state;
     
-    private Big5DistributionAnalysis distributionAnalyzer;
+    private final Big5DistributionAnalysis distributionAnalyzer;
     
-    private byte[]                      lastChar;
+    private final byte[]                      lastChar;
 
     private static final SMModel smModel = new Big5SMModel();
 

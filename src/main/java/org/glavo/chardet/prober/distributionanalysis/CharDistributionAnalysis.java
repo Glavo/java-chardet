@@ -37,7 +37,6 @@
 
 package org.glavo.chardet.prober.distributionanalysis;
 
-
 public abstract class CharDistributionAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants

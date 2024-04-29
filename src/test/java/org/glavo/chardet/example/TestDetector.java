@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.UniversalDetector;
 
 public class TestDetector {
@@ -66,7 +67,7 @@ public class TestDetector {
 			detector.dataEnd();
 
 			// (4)
-			String encoding = detector.getDetectedCharset();
+			DetectedCharset encoding = detector.getDetectedCharset();
 			if (encoding != null) {
 				System.out.println("Detected encoding = " + encoding);
 			} else {

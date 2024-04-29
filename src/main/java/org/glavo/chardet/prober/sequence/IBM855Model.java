@@ -39,11 +39,11 @@ package org.glavo.chardet.prober.sequence;
 
 import org.glavo.chardet.DetectedCharset;
 
-public class Ibm855Model extends CyrillicModel {
+public final class IBM855Model extends CyrillicModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public Ibm855Model() {
+	public IBM855Model() {
         super(ibm855CharToOrderMap, DetectedCharset.IBM855);
     }
     

@@ -63,7 +63,7 @@ public class EUCTWSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
-    private static int[] euctwClassTable = new int[] {
+    private static final int[] euctwClassTable = new int[] {
 //        PkgInt.pack4bits(0,2,2,2,2,2,2,2),  // 00 - 07 
         PkgInt.pack4bits(2,2,2,2,2,2,2,2),  // 00 - 07 
         PkgInt.pack4bits(2,2,2,2,2,2,0,0),  // 08 - 0f 
@@ -99,7 +99,7 @@ public class EUCTWSMModel extends SMModel {
         PkgInt.pack4bits(3,3,3,3,3,3,3,0)   // f8 - ff 
     };
     
-    private static int[] euctwStateTable = new int[] {
+    private static final int[] euctwStateTable = new int[] {
         PkgInt.pack4bits(ERROR,ERROR,START,    3,    3,    3,    4,ERROR),//00-07 
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ITSME,ITSME),//08-0f 
         PkgInt.pack4bits(ITSME,ITSME,ITSME,ITSME,ITSME,ERROR,START,ERROR),//10-17 
@@ -108,7 +108,7 @@ public class EUCTWSMModel extends SMModel {
         PkgInt.pack4bits(START,ERROR,START,START,START,START,START,START) //28-2f 
     };
     
-    private static int[] euctwCharLenTable = new int[] {
+    private static final int[] euctwCharLenTable = new int[] {
         0, 0, 1, 2, 2, 2, 3
     };
 }

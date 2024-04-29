@@ -64,7 +64,7 @@ public class UTF8SMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
-    private static int[] utf8ClassTable = new int[] {
+    private static final int[] utf8ClassTable = new int[] {
 //        PkgInt.pack4bits(0,1,1,1,1,1,1,1),  // 00 - 07 
         PkgInt.pack4bits(1,1,1,1,1,1,1,1),  // 00 - 07  //allow 0x00 as a legal value
         PkgInt.pack4bits(1,1,1,1,1,1,0,0),  // 08 - 0f 
@@ -100,7 +100,7 @@ public class UTF8SMModel extends SMModel {
         PkgInt.pack4bits(12,13,13,13,14,15,0,0)   // f8 - ff 
     };
     
-    private static int[] utf8StateTable = new int[] {
+    private static final int[] utf8StateTable = new int[] {
         PkgInt.pack4bits(ERROR,START,ERROR,ERROR,ERROR,ERROR,   12,   10),//00-07 
         PkgInt.pack4bits(    9,   11,    8,    7,    6,    5,    4,    3),//08-0f 
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR),//10-17 
@@ -129,7 +129,7 @@ public class UTF8SMModel extends SMModel {
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR) //c8-cf 
     };
     
-    private static int[] utf8CharLenTable = new int[] {
+    private static final int[] utf8CharLenTable = new int[] {
         0, 1, 0, 0, 0, 0, 2, 3,
         3, 3, 4, 4, 5, 5, 6, 6
     };

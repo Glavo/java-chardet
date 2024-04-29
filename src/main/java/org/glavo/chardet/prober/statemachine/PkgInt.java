@@ -61,11 +61,11 @@ public class PkgInt {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private int     indexShift;
-    private int     shiftMask;
-    private int     bitShift;
-    private int     unitMask;
-    private int[]   data;
+    private final int       indexShift;
+    private final int       shiftMask;
+    private final int       bitShift;
+    private final int       unitMask;
+    private final int[]     data;
     
 
     ////////////////////////////////////////////////////////////////

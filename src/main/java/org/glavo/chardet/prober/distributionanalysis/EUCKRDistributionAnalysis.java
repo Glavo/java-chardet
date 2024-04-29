@@ -37,7 +37,7 @@
 
 package org.glavo.chardet.prober.distributionanalysis;
 
-public class EUCKRDistributionAnalysis extends CharDistributionAnalysis {
+public final class EUCKRDistributionAnalysis extends CharDistributionAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////

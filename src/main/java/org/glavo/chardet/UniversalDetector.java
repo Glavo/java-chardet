@@ -75,18 +75,18 @@ public final class UniversalDetector {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private InputState          inputState;
-    private boolean             done;
-    private boolean             start;
-    private boolean             gotData;
-    private boolean             onlyPrintableASCII = true;
-    private byte                lastChar;
-    private DetectedCharset     detectedCharset;
+    private InputState                  inputState;
+    private boolean                     done;
+    private boolean                     start;
+    private boolean                     gotData;
+    private boolean                     onlyPrintableASCII = true;
+    private byte                        lastChar;
+    private DetectedCharset             detectedCharset;
 
-    private CharsetProber[]     probers;
-    private CharsetProber       escCharsetProber;
+    private final CharsetProber[]       probers;
+    private CharsetProber               escCharsetProber;
     
-    private CharsetListener     listener;
+    private CharsetListener             listener;
 
     
     ////////////////////////////////////////////////////////////////

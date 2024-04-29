@@ -63,7 +63,7 @@ public class GB18030SMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
-    private static int[] gb18030ClassTable = new int[] {
+    private static final int[] gb18030ClassTable = new int[] {
         PkgInt.pack4bits(1,1,1,1,1,1,1,1),  // 00 - 07 
         PkgInt.pack4bits(1,1,1,1,1,1,0,0),  // 08 - 0f 
         PkgInt.pack4bits(1,1,1,1,1,1,1,1),  // 10 - 17 
@@ -98,7 +98,7 @@ public class GB18030SMModel extends SMModel {
         PkgInt.pack4bits(6,6,6,6,6,6,6,0)   // f8 - ff 
     };
     
-    private static int[] gb18030StateTable = new int[] {
+    private static final int[] gb18030StateTable = new int[] {
         PkgInt.pack4bits(ERROR,START,START,START,START,START,    3,ERROR),//00-07 
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ITSME,ITSME),//08-0f 
         PkgInt.pack4bits(ITSME,ITSME,ITSME,ITSME,ITSME,ERROR,ERROR,START),//10-17 
@@ -107,7 +107,7 @@ public class GB18030SMModel extends SMModel {
         PkgInt.pack4bits(ERROR,ERROR,START,START,START,START,START,START) //28-2f 
     };
     
-    private static int[] gb18030CharLenTable = new int[] {
+    private static final int[] gb18030CharLenTable = new int[] {
         0, 1, 1, 1, 1, 1, 2
     };
 }

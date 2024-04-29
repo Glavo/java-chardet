@@ -107,7 +107,7 @@ public class Latin1Prober extends CharsetProber {
     
 	private ProbingState state;
 	private byte lastCharClass;
-	private int[] freqCounter;
+	private final int[] freqCounter;
 
 
 	public Latin1Prober() {

@@ -1,5 +1,6 @@
 package org.glavo.chardet.example;
 
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.UniversalDetector;
 
 public class TestDetectorFile {
@@ -10,7 +11,7 @@ public class TestDetectorFile {
 			System.exit(1);
 		}
 		java.io.File file = new java.io.File(args[0]);
-		String encoding = UniversalDetector.detectCharset(file);
+		DetectedCharset encoding = UniversalDetector.detectCharset(file);
 		if (encoding != null) {
 			System.out.println("Detected encoding = " + encoding);
 		} else {

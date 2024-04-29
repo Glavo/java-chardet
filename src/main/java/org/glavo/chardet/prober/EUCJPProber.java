@@ -48,13 +48,13 @@ public class EUCJPProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private CodingStateMachine          codingSM;
-    private ProbingState                state;
+    private final CodingStateMachine            codingSM;
+    private ProbingState                        state;
     
-    private EUCJPContextAnalysis        contextAnalyzer;
-    private EUCJPDistributionAnalysis distributionAnalyzer;
+    private final EUCJPContextAnalysis          contextAnalyzer;
+    private final EUCJPDistributionAnalysis     distributionAnalyzer;
     
-    private byte[]                      lastChar;
+    private final byte[]                        lastChar;
 
     private static final SMModel smModel = new EUCJPSMModel();
 

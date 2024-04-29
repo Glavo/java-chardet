@@ -22,7 +22,6 @@ public class GB18030SMFalsePositiveTest {
 	@Test
 	@Disabled
 	public void testFalsePositiveBug11() throws UnsupportedEncodingException {
-
 		String testString = "[°4°0°T°C°C°0°C°T";
 		byte[] testBuf = new byte[] { 91, -80, 52, -80, 48, -80, 84, -80, 67, -80, 67, -80, 48, -80, 67, -80,
 				84 };
@@ -33,15 +32,14 @@ public class GB18030SMFalsePositiveTest {
 		detector.handleData(buf, 0, buf.length);
 		detector.dataEnd();
 
-		String encoding = detector.getDetectedCharset();
+		DetectedCharset encoding = detector.getDetectedCharset();
 		detector.reset();
-		assertEquals("WINDOWS-1252", encoding);
+		assertEquals(DetectedCharset.WINDOWS_1252, encoding);
 	}
 
 	@Test
 	@Disabled
 	public void testFalsePositiveBug9() throws UnsupportedEncodingException {
-
 		String testString = "Wykamol,£588.95,0.18,0.12,testingSpecialised Products for DIY and Professionals£12";
 		byte[] buf = testString.getBytes("WINDOWS-1252");
 
@@ -49,9 +47,9 @@ public class GB18030SMFalsePositiveTest {
 		detector.handleData(buf);
 		detector.dataEnd();
 
-		String encoding = detector.getDetectedCharset();
+		DetectedCharset encoding = detector.getDetectedCharset();
 		detector.reset();
 
-		assertEquals("WINDOWS-1252", encoding);
+		assertEquals(DetectedCharset.WINDOWS_1252, encoding);
 	}
 }

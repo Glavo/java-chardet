@@ -63,7 +63,7 @@ public class ISO2022CNSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
-    private static int[] iso2022cnClassTable = new int[] {
+    private static final int[] iso2022cnClassTable = new int[] {
         PkgInt.pack4bits(2,0,0,0,0,0,0,0),  // 00 - 07 
         PkgInt.pack4bits(0,0,0,0,0,0,0,0),  // 08 - 0f 
         PkgInt.pack4bits(0,0,0,0,0,0,0,0),  // 10 - 17 
@@ -98,7 +98,7 @@ public class ISO2022CNSMModel extends SMModel {
         PkgInt.pack4bits(2,2,2,2,2,2,2,2)   // f8 - ff 
     };
     
-    private static int[] iso2022cnStateTable = new int[] {
+    private static final int[] iso2022cnStateTable = new int[] {
         PkgInt.pack4bits(START,    3,ERROR,START,START,START,START,START),//00-07 
         PkgInt.pack4bits(START,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR),//08-0f 
         PkgInt.pack4bits(ERROR,ERROR,ITSME,ITSME,ITSME,ITSME,ITSME,ITSME),//10-17 
@@ -109,7 +109,7 @@ public class ISO2022CNSMModel extends SMModel {
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ERROR,ITSME,ERROR,START) //38-3f 
     };
     
-    private static int[] iso2022cnCharLenTable = new int[] {
+    private static final int[] iso2022cnCharLenTable = new int[] {
         0, 0, 0, 0, 0, 0, 0, 0, 0
     };
 }

@@ -11,12 +11,10 @@ public class TIS620BasicTest {
 
 	@Test
 	public void testTIS620() throws IOException {
-
-		assertEquals("TIS620", getFileEncoding("tis620.txt"));
+		assertEquals(DetectedCharset.TIS620, getFileEncoding("tis620.txt"));
 	}
 
-	private String getFileEncoding(String testFileName) throws IOException {
-
+	private DetectedCharset getFileEncoding(String testFileName) throws IOException {
 		String fileName = "src/test/resources/" + testFileName;
 		return UniversalDetector.detectCharset(new File(fileName));
 	}

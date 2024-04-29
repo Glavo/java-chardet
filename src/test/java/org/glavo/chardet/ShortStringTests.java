@@ -52,17 +52,14 @@ public class ShortStringTests {
 
 	@Test
 	public void testShortString() {
-
-		assertEquals("US-ASCII", guessCharsetName("abcd".getBytes()));
+		assertEquals(DetectedCharset.US_ASCII, guessCharsetName("abcd".getBytes()));
 	}
 
 	private Charset guessCharset(final byte[] bytes) {
-
-		return Charset.forName(guessCharsetName(bytes));
+		return guessCharsetName(bytes).getCharset();
 	}
 
-	private String guessCharsetName(final byte[] bytes) {
-
+	private DetectedCharset guessCharsetName(final byte[] bytes) {
 		final UniversalDetector detector = new UniversalDetector();
 		detector.handleData(bytes, 0, bytes.length);
 		detector.dataEnd();

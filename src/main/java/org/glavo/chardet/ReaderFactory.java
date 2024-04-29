@@ -30,6 +30,7 @@ package org.glavo.chardet;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -66,14 +67,14 @@ public final class ReaderFactory {
 
     /**
      * Create a reader from a file with correct encoding. If charset cannot be determined,
-     * it uses the system default charset.
+     * it uses the UTF-8.
      *
      * @param file The file to read from
      * @return BufferedReader for the file with the correct encoding
      * @throws IOException if some I/O error occurs
      */
     public static BufferedReader createBufferedReader(File file) throws IOException {
-        return createBufferedReader(file, Charset.defaultCharset());
+        return createBufferedReader(file, StandardCharsets.UTF_8);
     }
 
 
@@ -103,13 +104,13 @@ public final class ReaderFactory {
 
     /**
      * Create a reader from a byte array with correct encoding. If charset cannot be determined,
-     * it uses the system default charset.
+     * it uses the UTF-8.
      *
      * @param data The byte[] to read from
      * @return BufferedReader for the file with the correct encoding
      * @throws IOException if some I/O error occurs
      */
     public static BufferedReader createBufferedReader(byte[] data) throws IOException {
-        return createBufferedReader(data, Charset.defaultCharset());
+        return createBufferedReader(data, StandardCharsets.UTF_8);
     }
 }

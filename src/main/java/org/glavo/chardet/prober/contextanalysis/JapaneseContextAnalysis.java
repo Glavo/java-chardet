@@ -65,13 +65,13 @@ public abstract class JapaneseContextAnalysis {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private int[]   relSample = new int[NUM_OF_CATEGORY];
-    private int     totalRel;
-    private int     lastCharOrder;
-    private int     needToSkipCharNum;
-    private boolean done;
+    private final int[]     relSample = new int[NUM_OF_CATEGORY];
+    private int             totalRel;
+    private int             lastCharOrder;
+    private int             needToSkipCharNum;
+    private boolean         done;
     
-    private Order   tmpOrder;
+    private final Order     tmpOrder;
     
     
     ////////////////////////////////////////////////////////////////

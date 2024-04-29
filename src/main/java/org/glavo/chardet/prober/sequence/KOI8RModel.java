@@ -39,11 +39,11 @@ package org.glavo.chardet.prober.sequence;
 
 import org.glavo.chardet.DetectedCharset;
 
-public class Koi8rModel extends CyrillicModel {
+public final class KOI8RModel extends CyrillicModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public Koi8rModel() {
+	public KOI8RModel() {
         super(koi8rCharToOrderMap, DetectedCharset.KOI8_R);
     }
     

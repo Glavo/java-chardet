@@ -63,7 +63,7 @@ public class HZSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
-    private static int[] hzsClassTable = new int[] {
+    private static final int[] hzsClassTable = new int[] {
         PkgInt.pack4bits(1,0,0,0,0,0,0,0),  // 00 - 07 
         PkgInt.pack4bits(0,0,0,0,0,0,0,0),  // 08 - 0f 
         PkgInt.pack4bits(0,0,0,0,0,0,0,0),  // 10 - 17 
@@ -98,7 +98,7 @@ public class HZSMModel extends SMModel {
         PkgInt.pack4bits(1,1,1,1,1,1,1,1)   // f8 - ff 
     };
     
-    private static int[] hzsStateTable = new int[] {
+    private static final int[] hzsStateTable = new int[] {
         PkgInt.pack4bits(START,ERROR,    3,START,START,START,ERROR,ERROR),//00-07 
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ITSME,ITSME,ITSME,ITSME),//08-0f 
         PkgInt.pack4bits(ITSME,ITSME,ERROR,ERROR,START,START,    4,ERROR),//10-17 
@@ -107,7 +107,7 @@ public class HZSMModel extends SMModel {
         PkgInt.pack4bits(    4,ITSME,START,START,START,START,START,START) //28-2f 
     };
     
-    private static int[] hzsCharLenTable = new int[] {
+    private static final int[] hzsCharLenTable = new int[] {
         0, 0, 0, 0, 0, 0
     };
 }

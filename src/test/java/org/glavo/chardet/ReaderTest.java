@@ -14,42 +14,35 @@ public class ReaderTest {
 
 	@Test
 	public void testUTF8() throws IOException {
-
 		assertEquals(TEST_STRING, getSecondLine("utf8.txt"));
 	}
 
 	@Test
 	public void testUTF8N() throws IOException {
-
 		assertEquals(TEST_STRING, getSecondLine("utf8n.txt"));
 	}
 
 	@Test
 	public void testUTF16LE() throws IOException {
-
 		assertEquals(TEST_STRING, getSecondLine("utf16le.txt"));
 	}
 
 	@Test
 	public void testShifJis() throws IOException {
-
 		assertEquals(TEST_STRING, getSecondLine("shiftjis.txt"));
 	}
 
 	@Test
 	public void testEUC() throws IOException {
-
 		assertEquals(TEST_STRING, getSecondLine("euc.txt"));
 	}
 
 	@Test
 	public void testISO2022JP() throws IOException {
-
 		assertEquals(TEST_STRING, getSecondLine("iso2022jp.txt"));
 	}
 
 	private String getSecondLine(String testFileName) throws IOException {
-
 		String fileName = "src/test/resources/" + testFileName;
 		File file = new File(fileName);
 		try (BufferedReader reader = ReaderFactory.createBufferedReader(file)) {

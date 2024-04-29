@@ -63,7 +63,7 @@ public class ISO2022KRSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
-    private static int[] iso2022krClassTable = new int[] {
+    private static final int[] iso2022krClassTable = new int[] {
         PkgInt.pack4bits(2,0,0,0,0,0,0,0),  // 00 - 07 
         PkgInt.pack4bits(0,0,0,0,0,0,0,0),  // 08 - 0f 
         PkgInt.pack4bits(0,0,0,0,0,0,0,0),  // 10 - 17 
@@ -98,7 +98,7 @@ public class ISO2022KRSMModel extends SMModel {
         PkgInt.pack4bits(2,2,2,2,2,2,2,2)   // f8 - ff 
     };
     
-    private static int[] iso2022krStateTable = new int[] {
+    private static final int[] iso2022krStateTable = new int[] {
         PkgInt.pack4bits(START,    3,ERROR,START,START,START,ERROR,ERROR),//00-07 
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ITSME,ITSME,ITSME,ITSME),//08-0f 
         PkgInt.pack4bits(ITSME,ITSME,ERROR,ERROR,ERROR,    4,ERROR,ERROR),//10-17 
@@ -106,7 +106,7 @@ public class ISO2022KRSMModel extends SMModel {
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ITSME,START,START,START,START) //20-27 
     };
     
-    private static int[] iso2022krCharLenTable = new int[] {
+    private static final int[] iso2022krCharLenTable = new int[] {
         0, 0, 0, 0, 0, 0
     };
 }

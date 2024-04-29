@@ -37,7 +37,7 @@ import java.io.InputStream;
  */
 public class EncodingDetectorInputStream extends InputStream {
 
-	private InputStream in;
+	private final InputStream in;
 	private final UniversalDetector detector = new UniversalDetector(null);
 
 	/**
@@ -111,7 +111,7 @@ public class EncodingDetectorInputStream extends InputStream {
 	 * Gets the detected charset, null if not yet detected.
 	 * @return The detected charset
 	 */
-	public String getDetectedCharset() {
+	public DetectedCharset getDetectedCharset() {
 		return detector.getDetectedCharset();
 	}
 

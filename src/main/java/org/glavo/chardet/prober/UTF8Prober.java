@@ -52,9 +52,9 @@ public class UTF8Prober extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private CodingStateMachine  codingSM;
-    private ProbingState        state;
-    private int                 numOfMBChar;
+    private final CodingStateMachine    codingSM;
+    private ProbingState                state;
+    private int                         numOfMBChar;
     
     private static final SMModel smModel = new UTF8SMModel();
     

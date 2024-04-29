@@ -38,7 +38,7 @@
 package org.glavo.chardet.prober.contextanalysis;
 
 
-public class EUCJPContextAnalysis extends JapaneseContextAnalysis {
+public final class EUCJPContextAnalysis extends JapaneseContextAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ public class EUCJPContextAnalysis extends JapaneseContextAnalysis {
     public static final int SINGLE_SHIFT_3 = 0x8F;
     public static final int FIRSTPLANE_HIGHBYTE_BEGIN = 0xA1;
     public static final int FIRSTPLANE_HIGHBYTE_END = 0xFE;
-    
+
 
     ////////////////////////////////////////////////////////////////
     // methods
@@ -62,7 +62,7 @@ public class EUCJPContextAnalysis extends JapaneseContextAnalysis {
 	protected void getOrder(Order order, final byte[] buf, int offset) {
         order.order = -1;
         order.charLength = 1;
-        
+
         int firstByte = buf[offset] & 0xFF;
         if (firstByte == SINGLE_SHIFT_2 ||
             (firstByte >= FIRSTPLANE_HIGHBYTE_BEGIN &&
@@ -71,7 +71,7 @@ public class EUCJPContextAnalysis extends JapaneseContextAnalysis {
         } else if (firstByte == SINGLE_SHIFT_3) {
             order.charLength = 3;
         }
-        
+
         if (firstByte == HIRAGANA_HIGHBYTE) {
             int secondByte = buf[offset+1] & 0xFF;
             if (secondByte >= HIRAGANA_LOWBYTE_BEGIN &&
@@ -80,7 +80,7 @@ public class EUCJPContextAnalysis extends JapaneseContextAnalysis {
             }
         }
     }
-    
+
     @Override
 	protected int getOrder(final byte[] buf, int offset) {
         int highbyte = buf[offset] & 0xFF;
@@ -91,7 +91,7 @@ public class EUCJPContextAnalysis extends JapaneseContextAnalysis {
                 return (lowbyte - HIRAGANA_LOWBYTE_BEGIN);
             }
         }
-        
+
         return -1;
     }
 }

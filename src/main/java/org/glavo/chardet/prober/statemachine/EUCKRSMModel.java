@@ -63,7 +63,7 @@ public class EUCKRSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
-    private static int[] euckrClassTable = new int[] {
+    private static final int[] euckrClassTable = new int[] {
 //        PkgInt.pack4bits(0,1,1,1,1,1,1,1),  // 00 - 07 
         PkgInt.pack4bits(1,1,1,1,1,1,1,1),  // 00 - 07 
         PkgInt.pack4bits(1,1,1,1,1,1,0,0),  // 08 - 0f 
@@ -99,12 +99,12 @@ public class EUCKRSMModel extends SMModel {
         PkgInt.pack4bits(2,2,2,2,2,2,2,0)   // f8 - ff 
     };
     
-    private static int[] euckrStateTable = new int[] {
+    private static final int[] euckrStateTable = new int[] {
         PkgInt.pack4bits(ERROR,START,    3,ERROR,ERROR,ERROR,ERROR,ERROR),//00-07 
         PkgInt.pack4bits(ITSME,ITSME,ITSME,ITSME,ERROR,ERROR,START,START) //08-0f 
     };
     
-    private static int[] euckrCharLenTable = new int[] {
+    private static final int[] euckrCharLenTable = new int[] {
         0, 1, 2, 0
     };
 

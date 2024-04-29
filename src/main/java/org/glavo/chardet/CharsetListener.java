@@ -41,6 +41,7 @@ package org.glavo.chardet;
  * Listener to be notified when Charset is detected.
  *
  */
+@FunctionalInterface
 public interface CharsetListener {
 	
 	/**

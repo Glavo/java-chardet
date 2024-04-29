@@ -64,7 +64,7 @@ public class ISO2022JPSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
-    private static int[] iso2022jpClassTable = new int[] {
+    private static final int[] iso2022jpClassTable = new int[] {
         PkgInt.pack4bits(2,0,0,0,0,0,0,0),  // 00 - 07 
         PkgInt.pack4bits(0,0,0,0,0,0,2,2),  // 08 - 0f 
         PkgInt.pack4bits(0,0,0,0,0,0,0,0),  // 10 - 17 
@@ -99,7 +99,7 @@ public class ISO2022JPSMModel extends SMModel {
         PkgInt.pack4bits(2,2,2,2,2,2,2,2)   // f8 - ff 
     };
     
-    private static int[] iso2022jpStateTable = new int[] {
+    private static final int[] iso2022jpStateTable = new int[] {
         PkgInt.pack4bits(START,    3,ERROR,START,START,START,START,START),//00-07 
         PkgInt.pack4bits(START,START,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR),//08-0f 
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ITSME,ITSME,ITSME,ITSME),//10-17 
@@ -111,7 +111,7 @@ public class ISO2022JPSMModel extends SMModel {
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ITSME,ERROR,START,START) //40-47 
     };
     
-    private static int[] iso2022jpCharLenTable = new int[] {
+    private static final int[] iso2022jpCharLenTable = new int[] {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
 }

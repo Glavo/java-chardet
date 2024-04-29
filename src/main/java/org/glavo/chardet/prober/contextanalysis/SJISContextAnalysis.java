@@ -37,7 +37,7 @@
 
 package org.glavo.chardet.prober.contextanalysis;
 
-public class SJISContextAnalysis extends JapaneseContextAnalysis {
+public final class SJISContextAnalysis extends JapaneseContextAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////

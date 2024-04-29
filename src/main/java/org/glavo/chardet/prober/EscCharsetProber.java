@@ -45,15 +45,14 @@ import org.glavo.chardet.prober.statemachine.ISO2022CNSMModel;
 import org.glavo.chardet.prober.statemachine.ISO2022JPSMModel;
 import org.glavo.chardet.prober.statemachine.ISO2022KRSMModel;
 
-
 public class EscCharsetProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private CodingStateMachine[]    codingSM;
-    private int                     activeSM;
-    private ProbingState            state;
-    private DetectedCharset         detectedCharset;
+    private final CodingStateMachine[]      codingSM;
+    private int                             activeSM;
+    private ProbingState                    state;
+    private DetectedCharset                 detectedCharset;
     
     private static final HZSMModel hzsModel = new HZSMModel();
     private static final ISO2022CNSMModel iso2022cnModel = new ISO2022CNSMModel();
@@ -77,7 +76,7 @@ public class EscCharsetProber extends CharsetProber {
     }
     
     @Override
-	public String getCharset() {
+	public DetectedCharset getCharset() {
         return this.detectedCharset;
     }
 

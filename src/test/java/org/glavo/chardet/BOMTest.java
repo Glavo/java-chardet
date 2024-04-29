@@ -14,24 +14,20 @@ public class BOMTest {
 
 	@Test
 	public void testUTF8() throws IOException {
-
 		assertEquals(TEST_STRING, getFirstLine("utf8.txt"));
 	}
 
 	@Test
 	public void testUTF8N() throws IOException {
-
 		assertEquals(TEST_STRING, getFirstLine("utf8n.txt"));
 	}
 
 	@Test
 	public void testUTF16LE() throws IOException {
-
 		assertEquals(TEST_STRING, getFirstLine("utf16le.txt"));
 	}
 
 	private String getFirstLine(String testFileName) throws IOException {
-
 		String fileName = "src/test/resources/" + testFileName;
 		File file = new File(fileName);
 		try (BufferedReader reader = ReaderFactory.createBufferedReader(file)) {

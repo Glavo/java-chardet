@@ -43,9 +43,9 @@ import java.util.List;
 
 import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.sequence.HebrewModel;
-import org.glavo.chardet.prober.sequence.Ibm855Model;
-import org.glavo.chardet.prober.sequence.Ibm866Model;
-import org.glavo.chardet.prober.sequence.Koi8rModel;
+import org.glavo.chardet.prober.sequence.IBM855Model;
+import org.glavo.chardet.prober.sequence.IBM866Model;
+import org.glavo.chardet.prober.sequence.KOI8RModel;
 import org.glavo.chardet.prober.sequence.Latin5BulgarianModel;
 import org.glavo.chardet.prober.sequence.Latin5Model;
 import org.glavo.chardet.prober.sequence.Latin7Model;
@@ -59,7 +59,7 @@ import org.glavo.chardet.prober.sequence.Win1253Model;
 public class SBCSGroupProber extends CharsetProber {
 	
 	private ProbingState state;
-	private List<CharsetProber> probers = new ArrayList<>();
+	private final List<CharsetProber> probers = new ArrayList<>();
 	private CharsetProber bestGuess;
 	private int activeNum;
     
@@ -67,11 +67,11 @@ public class SBCSGroupProber extends CharsetProber {
 		super();
 
 		probers.add(new SingleByteCharsetProber(new Win1251Model()));
-		probers.add(new SingleByteCharsetProber(new Koi8rModel()));
+		probers.add(new SingleByteCharsetProber(new KOI8RModel()));
 		probers.add(new SingleByteCharsetProber(new Latin5Model()));
 		probers.add(new SingleByteCharsetProber(new MacCyrillicModel()));
-		probers.add(new SingleByteCharsetProber(new Ibm866Model()));
-		probers.add(new SingleByteCharsetProber(new Ibm855Model()));
+		probers.add(new SingleByteCharsetProber(new IBM866Model()));
+		probers.add(new SingleByteCharsetProber(new IBM855Model()));
 		probers.add(new SingleByteCharsetProber(new Latin7Model()));
 		probers.add(new SingleByteCharsetProber(new Win1253Model()));
 		probers.add(new SingleByteCharsetProber(new Latin5BulgarianModel()));

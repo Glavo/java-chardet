@@ -8,7 +8,6 @@ public class PkgIntTest {
 
 	@Test
 	public void testUnpack() {
-
 		int[] data = new int[] { PkgInt.pack4bits(0, 1, 2, 3, 4, 5, 6, 7),
 				PkgInt.pack4bits(8, 9, 10, 11, 12, 13, 14, 15) };
 

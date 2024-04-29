@@ -37,7 +37,7 @@
 
 package org.glavo.chardet.prober.distributionanalysis;
 
-public class EUCJPDistributionAnalysis extends JISDistributionAnalysis {
+public final class EUCJPDistributionAnalysis extends JISDistributionAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////

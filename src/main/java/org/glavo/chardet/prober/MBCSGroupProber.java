@@ -47,10 +47,10 @@ public class MBCSGroupProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private ProbingState        state;
-    private List<CharsetProber> probers = new ArrayList<>();
-    private CharsetProber       bestGuess;
-    private int                 activeNum;
+    private ProbingState                state;
+    private final List<CharsetProber>   probers = new ArrayList<>();
+    private CharsetProber               bestGuess;
+    private int                         activeNum;
 
 
     ////////////////////////////////////////////////////////////////
@@ -59,8 +59,6 @@ public class MBCSGroupProber extends CharsetProber {
 	public MBCSGroupProber() {
 		super();
 
-
-		
 		probers.add(new GB18030Prober());
 		probers.add(new UTF8Prober());
 		probers.add(new Big5Prober());

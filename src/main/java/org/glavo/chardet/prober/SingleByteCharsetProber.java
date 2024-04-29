@@ -58,19 +58,19 @@ public class SingleByteCharsetProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private ProbingState    state;
-    private SequenceModel   model;
-    private boolean         reversed;
+    private ProbingState            state;
+    private final SequenceModel     model;
+    private final boolean           reversed;
     
-    private short           lastOrder;
+    private short                   lastOrder;
 
-    private int             totalSeqs;
-    private int[]           seqCounters;
+    private int                     totalSeqs;
+    private final int[]             seqCounters;
     
-    private int             totalChar;
-    private int             freqChar;
+    private int                     totalChar;
+    private int                     freqChar;
     
-    private CharsetProber   nameProber;
+    private final CharsetProber     nameProber;
     
     
     ////////////////////////////////////////////////////////////////

@@ -38,7 +38,7 @@ package org.glavo.chardet.prober.sequence;
 
 import org.glavo.chardet.DetectedCharset;
 
-public class Win1253Model extends GreekModel {
+public final class Win1253Model extends GreekModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////

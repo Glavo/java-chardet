@@ -14,6 +14,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
+tasks.compileJava {
+    options.release.set(9)
+}
+
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }

@@ -39,7 +39,7 @@ package org.glavo.chardet.prober.sequence;
 
 import org.glavo.chardet.DetectedCharset;
 
-public class Win1251BulgarianModel extends BulgarianModel {
+public final class Win1251BulgarianModel extends BulgarianModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////

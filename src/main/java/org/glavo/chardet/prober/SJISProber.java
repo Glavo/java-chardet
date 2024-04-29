@@ -48,13 +48,13 @@ public class SJISProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private CodingStateMachine codingSM;
+    private final CodingStateMachine codingSM;
     private ProbingState                state;
     
-    private SJISContextAnalysis contextAnalyzer;
-    private SJISDistributionAnalysis distributionAnalyzer;
+    private final SJISContextAnalysis           contextAnalyzer;
+    private final SJISDistributionAnalysis      distributionAnalyzer;
     
-    private byte[]                      lastChar;
+    private final byte[]                        lastChar;
     
     private static final SMModel smModel = new SJISSMModel();
     

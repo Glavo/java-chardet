@@ -37,7 +37,7 @@
 
 package org.glavo.chardet.prober.distributionanalysis;
 
-public class GB2312DistributionAnalysis extends CharDistributionAnalysis {
+public final class GB2312DistributionAnalysis extends CharDistributionAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////

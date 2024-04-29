@@ -14,72 +14,60 @@ public class BasicStreamEncodingDetectionTest {
 
 	@Test
 	public void testUTF8() throws IOException {
-
-		assertEquals("UTF-8", getFileEncoding("utf8.txt"));
+		assertEquals(DetectedCharset.UTF_8, getFileEncoding("utf8.txt"));
 	}
 
 	@Test
 	public void testUTF8N() throws IOException {
-
-		assertEquals("UTF-8", getFileEncoding("utf8n.txt"));
+		assertEquals(DetectedCharset.UTF_8, getFileEncoding("utf8n.txt"));
 	}
 
 	@Test
 	public void testUTF16LE() throws IOException {
-
-		assertEquals("UTF-16LE", getFileEncoding("utf16le.txt"));
+		assertEquals(DetectedCharset.UTF_16LE, getFileEncoding("utf16le.txt"));
 	}
 
 	@Test
 	public void testShiftJis() throws IOException {
-
-		assertEquals("SHIFT_JIS", getFileEncoding("shiftjis.txt"));
+		assertEquals(DetectedCharset.SHIFT_JIS, getFileEncoding("shiftjis.txt"));
 	}
 
 	@Test
 	public void testEUC() throws IOException {
-
-		assertEquals("EUC-JP", getFileEncoding("euc.txt"));
+		assertEquals(DetectedCharset.EUC_JP, getFileEncoding("euc.txt"));
 	}
 
 	@Test
 	public void testISO2022JP() throws IOException {
-
-		assertEquals("ISO-2022-JP", getFileEncoding("iso2022jp.txt"));
+		assertEquals(DetectedCharset.ISO_2022_JP, getFileEncoding("iso2022jp.txt"));
 	}
 
 	@Test
 	public void testBIG5() throws IOException {
-
-		assertEquals("BIG5", getFileEncoding("big5.txt"));
+		assertEquals(DetectedCharset.BIG5, getFileEncoding("big5.txt"));
 	}
 
 	@Test
 	public void testEUCTW() throws IOException {
-
-		assertEquals("EUC-TW", getFileEncoding("euctw.txt"));
+		assertEquals(DetectedCharset.EUC_TW, getFileEncoding("euctw.txt"));
 	}
 
 	@Test
 	public void testEUCKR() throws IOException {
-
-		assertEquals("EUC-KR", getFileEncoding("euckr.txt"));
+		assertEquals(DetectedCharset.EUC_KR, getFileEncoding("euckr.txt"));
 	}
 
 	@Test
 	public void testWindows1255() throws IOException {
-
-		assertEquals("WINDOWS-1255", getFileEncoding("windows1255.txt"));
+		assertEquals(DetectedCharset.WINDOWS_1255, getFileEncoding("windows1255.txt"));
 	}
 
 	@Test
 	public void testUTF8Emoji() throws IOException {
-
-		assertEquals("UTF-8", getFileEncoding("utf8n-emoji.txt"));
+		assertEquals(DetectedCharset.UTF_8, getFileEncoding("utf8n-emoji.txt"));
 	}
 
-	private String getFileEncoding(String testFileName) throws IOException {
-
+	private DetectedCharset getFileEncoding(String testFileName) throws IOException {
 		File file = new File("src/test/resources/" + testFileName);
 
 		try (EncodingDetectorInputStream edis = new EncodingDetectorInputStream(
@@ -93,8 +81,8 @@ public class BasicStreamEncodingDetectionTest {
 			}
 			edis.close();
 			edos.close();
-			String encodingRead = edis.getDetectedCharset();
-			String encodingWrite = edos.getDetectedCharset();
+			DetectedCharset encodingRead = edis.getDetectedCharset();
+			DetectedCharset encodingWrite = edos.getDetectedCharset();
 			assertNotNull(encodingRead);
 			assertNotNull(encodingWrite);
 			assertEquals(encodingRead, encodingWrite);

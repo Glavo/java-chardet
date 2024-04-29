@@ -17,31 +17,27 @@ public class Bug20LatinDetectedAsMaccyrillicTest {
 	@Test
 	@Disabled("Bug not fixed yet")
 	public void testFile() throws IOException {
-
 		File testFile = new File("src/test/resources/bug20-example-latin.txt");
-		String originalEncoding = UniversalDetector.detectCharset(testFile);
-		assertEquals("WINDOWS-1252", originalEncoding);
+		DetectedCharset originalEncoding = UniversalDetector.detectCharset(testFile);
+		assertEquals(DetectedCharset.WINDOWS_1252, originalEncoding);
 	}
 
 	@Test
 	@Disabled("Bug not fixed yet")
 	public void testLatin() {
-
 		UniversalDetector detector = new UniversalDetector();
 		detector.handleData(TEST_STRING.getBytes(Charset.forName("WINDOWS-1252")));
 		detector.dataEnd();
-		assertEquals("WINDOWS-1252", detector.getDetectedCharset());
+		assertEquals(DetectedCharset.WINDOWS_1252, detector.getDetectedCharset());
 
 	}
 
 	@Test
 	public void testUTF8() {
-
 		UniversalDetector detector = new UniversalDetector();
 		detector.handleData(TEST_STRING.getBytes(StandardCharsets.UTF_8));
 		detector.dataEnd();
-		assertEquals("UTF-8", detector.getDetectedCharset());
-
+		assertEquals(DetectedCharset.UTF_8, detector.getDetectedCharset());
 	}
 
 }

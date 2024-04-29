@@ -41,7 +41,7 @@ package org.glavo.chardet.prober.sequence;
 
 import org.glavo.chardet.DetectedCharset;
 
-public class HebrewModel extends SequenceModel {
+public final class HebrewModel extends SequenceModel {
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////

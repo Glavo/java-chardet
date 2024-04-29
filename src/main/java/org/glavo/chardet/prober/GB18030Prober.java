@@ -48,12 +48,12 @@ public class GB18030Prober extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private CodingStateMachine          codingSM;
-    private ProbingState                state;
+    private final CodingStateMachine            codingSM;
+    private ProbingState                        state;
     
-    private GB2312DistributionAnalysis  distributionAnalyzer;
+    private final GB2312DistributionAnalysis    distributionAnalyzer;
     
-    private byte[]                      lastChar;
+    private final byte[]                        lastChar;
 
     private static final SMModel smModel = new GB18030SMModel();
 

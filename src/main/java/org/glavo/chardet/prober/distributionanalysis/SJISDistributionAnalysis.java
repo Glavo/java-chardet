@@ -37,7 +37,7 @@
 
 package org.glavo.chardet.prober.distributionanalysis;
 
-public class SJISDistributionAnalysis extends JISDistributionAnalysis {
+public final class SJISDistributionAnalysis extends JISDistributionAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////

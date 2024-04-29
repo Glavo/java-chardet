@@ -63,7 +63,7 @@ public class SJISSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
-    private static int[] sjisClassTable = new int[] {
+    private static final int[] sjisClassTable = new int[] {
 //        PkgInt.pack4bits(0,1,1,1,1,1,1,1),  // 00 - 07 
         PkgInt.pack4bits(1,1,1,1,1,1,1,1),  // 00 - 07 
         PkgInt.pack4bits(1,1,1,1,1,1,0,0),  // 08 - 0f 
@@ -101,13 +101,13 @@ public class SJISSMModel extends SMModel {
         PkgInt.pack4bits(4,4,4,4,4,0,0,0)   // f8 - ff 
     };
     
-    private static int[] sjisStateTable = new int[] {
+    private static final int[] sjisStateTable = new int[] {
         PkgInt.pack4bits(ERROR,START,START,    3,ERROR,ERROR,ERROR,ERROR),//00-07 
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ITSME,ITSME,ITSME,ITSME),//08-0f 
         PkgInt.pack4bits(ITSME,ITSME,ERROR,ERROR,START,START,START,START) //10-17 
     };
     
-    private static int[] sjisCharLenTable = new int[] {
+    private static final int[] sjisCharLenTable = new int[] {
         0, 1, 1, 2, 0, 0
     };
 }

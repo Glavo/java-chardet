@@ -63,7 +63,7 @@ public class EUCJPSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
-    private static int[] eucjpClassTable = new int[] {
+    private static final int[] eucjpClassTable = new int[] {
 //        PkgInt.pack4bits(5,4,4,4,4,4,4,4),  // 00 - 07 
         PkgInt.pack4bits(4,4,4,4,4,4,4,4),  // 00 - 07 
         PkgInt.pack4bits(4,4,4,4,4,4,5,5),  // 08 - 0f 
@@ -99,7 +99,7 @@ public class EUCJPSMModel extends SMModel {
         PkgInt.pack4bits(0,0,0,0,0,0,0,5)   // f8 - ff 
     };
     
-    private static int[] eucjpStateTable = new int[] {
+    private static final int[] eucjpStateTable = new int[] {
         PkgInt.pack4bits(    3,    4,    3,    5,START,ERROR,ERROR,ERROR),//00-07 
         PkgInt.pack4bits(ERROR,ERROR,ERROR,ERROR,ITSME,ITSME,ITSME,ITSME),//08-0f 
         PkgInt.pack4bits(ITSME,ITSME,START,ERROR,START,ERROR,ERROR,ERROR),//10-17 
@@ -107,7 +107,7 @@ public class EUCJPSMModel extends SMModel {
         PkgInt.pack4bits(    3,ERROR,ERROR,ERROR,START,START,START,START) //20-27 
     };
     
-    private static int[] eucjpCharLenTable = new int[] {
+    private static final int[] eucjpCharLenTable = new int[] {
         2, 2, 2, 3, 1, 0
     };
 }
