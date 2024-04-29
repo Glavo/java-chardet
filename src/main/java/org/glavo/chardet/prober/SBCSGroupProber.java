@@ -41,6 +41,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.sequence.HebrewModel;
 import org.glavo.chardet.prober.sequence.Ibm855Model;
 import org.glavo.chardet.prober.sequence.Ibm866Model;
@@ -91,7 +92,7 @@ public class SBCSGroupProber extends CharsetProber {
 	}
     
 	@Override
-	public String getCharSetName() {
+	public DetectedCharset getCharset() {
 		if (this.bestGuess == null) {
 			getConfidence();
 			if (this.bestGuess == null) {
@@ -99,7 +100,7 @@ public class SBCSGroupProber extends CharsetProber {
 			}
 		}
 
-		return this.bestGuess.getCharSetName();
+		return this.bestGuess.getCharset();
 	}
 
 	@Override

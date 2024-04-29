@@ -38,9 +38,9 @@
 
 package org.glavo.chardet.prober;
 
-import java.nio.ByteBuffer;
-import org.glavo.chardet.Constants;
+import org.glavo.chardet.DetectedCharset;
 
+import java.nio.ByteBuffer;
 
 public class Latin1Prober extends CharsetProber {
     public static final byte UDF = 0;
@@ -117,8 +117,8 @@ public class Latin1Prober extends CharsetProber {
 	}
 
 	@Override
-	public String getCharSetName() {
-		return Constants.CHARSET_WINDOWS_1252;
+	public DetectedCharset getCharset() {
+		return DetectedCharset.WINDOWS_1252;
 	}
 
 	@Override

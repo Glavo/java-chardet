@@ -39,99 +39,77 @@ import java.util.Objects;
  */
 public final class ReaderFactory {
 
-	private ReaderFactory() {
-		throw new AssertionError("No instances allowed");
-	}
+    private ReaderFactory() {
+        throw new AssertionError("No instances allowed");
+    }
 
-	/**
-	 * Create a reader from a file with correct encoding
-	 * @param file The file to read from
-	 * @param defaultCharset defaultCharset to use if can't be determined
-	 * @return BufferedReader for the file with the correct encoding
-	 * @throws IOException if some I/O error occurs
-	 */
-	public static BufferedReader createBufferedReader(File file, Charset defaultCharset) throws IOException {
-		Charset cs = Objects.requireNonNull(defaultCharset, "defaultCharset must be not null");
-		String detectedEncoding = UniversalDetector.detectCharset(file);
-		if (detectedEncoding != null) {
-			cs = Charset.forName(detectedEncoding);
-		}		
-		if (!cs.name().contains("UTF")) {
-			return Files.newBufferedReader(file.toPath(), cs);			
-		}
-		Path path = file.toPath();
-		return new BufferedReader(new InputStreamReader(new UnicodeBOMInputStream(new BufferedInputStream(Files.newInputStream(path))), cs));
-	}
-	
-	/**
-	 * Create a reader from a file with correct encoding. If charset cannot be determined, 
-	 * it uses the system default charset.
-	 * @param file The file to read from
-	 * @return BufferedReader for the file with the correct encoding
-	 * @throws IOException if some I/O error occurs
-	 */
-	public static BufferedReader createBufferedReader(File file) throws IOException {
-		return createBufferedReader(file, Charset.defaultCharset());
-	}
+    /**
+     * Create a reader from a file with correct encoding
+     *
+     * @param file           The file to read from
+     * @param defaultCharset defaultCharset to use if can't be determined
+     * @return BufferedReader for the file with the correct encoding
+     * @throws IOException if some I/O error occurs
+     */
+    public static BufferedReader createBufferedReader(File file, Charset defaultCharset) throws IOException {
+        Charset cs = Objects.requireNonNull(defaultCharset, "defaultCharset must be not null");
+        DetectedCharset detectedEncoding = UniversalDetector.detectCharset(file);
+        if (detectedEncoding != null) {
+            cs = detectedEncoding.getCharset();
+        }
+        if (!cs.name().contains("UTF")) {
+            return Files.newBufferedReader(file.toPath(), cs);
+        }
+        Path path = file.toPath();
+        return new BufferedReader(new InputStreamReader(new UnicodeBOMInputStream(new BufferedInputStream(Files.newInputStream(path))), cs));
+    }
 
-	
-	/**
-	 * Create a reader from a byte array with correct encoding
-	 * @param data The byte[] to read from
-	 * @param defaultCharset defaultCharset to use if can't be determined
-	 * @return BufferedReader for the file with the correct encoding
-	 * @throws IOException if some I/O error occurs
-	 */
-	public static BufferedReader createBufferedReader(byte[] data, Charset defaultCharset) throws IOException {
-		Charset cs = Objects.requireNonNull(defaultCharset, "defaultCharset must be not null");
-		String detectedEncoding = null;
-		try (InputStream is = new ByteArrayInputStream(data)) {
-			detectedEncoding = UniversalDetector.detectCharset(is);
-		}
+    /**
+     * Create a reader from a file with correct encoding. If charset cannot be determined,
+     * it uses the system default charset.
+     *
+     * @param file The file to read from
+     * @return BufferedReader for the file with the correct encoding
+     * @throws IOException if some I/O error occurs
+     */
+    public static BufferedReader createBufferedReader(File file) throws IOException {
+        return createBufferedReader(file, Charset.defaultCharset());
+    }
 
-		if (detectedEncoding != null) {
-			cs = Charset.forName(detectedEncoding);
-		}
-		if (!cs.name().contains("UTF")) {
-			return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data), cs));
-		}
-		return new BufferedReader(new InputStreamReader(new UnicodeBOMInputStream(new ByteArrayInputStream(data))));
-	}
-	
-	/**
-	 * Create a reader from a byte array with correct encoding. If charset cannot be determined, 
-	 * it uses the system default charset.
-	 * @param data The byte[] to read from
-	 * @return BufferedReader for the file with the correct encoding
-	 * @throws IOException if some I/O error occurs
-	 */
-	public static BufferedReader createBufferedReader(byte[] data) throws IOException {
-		return createBufferedReader(data, Charset.defaultCharset());
-	}
-	
-	/**
-	 * Create a reader from a file with the correct encoding
-	 * @param file The file to read from
-	 * @param defaultCharset defaultCharset to use if can't be determined
-	 * @return Reader for the file with the correct encoding
-	 * @throws IOException if some I/O error occurs
-	 * @deprecated Use {@link #createBufferedReader(File, Charset)}
-	 * 	 
-	 */
-	@Deprecated
-	public static Reader createReaderFromFile(File file, Charset defaultCharset) throws IOException {
-		return createBufferedReader(file, defaultCharset);
-	}
-	/**
-	 * Create a reader from a file with the correct encoding. If charset cannot be determined, 
-	 * it uses the system default charset.
-	 * @param file The file to read from
-	 * @return Reader for the file with the correct encoding
-	 * @throws IOException if some I/O error occurs
-	 * @deprecated Use {@link #createBufferedReader(File)}
-	 */
-	@Deprecated
-	public static Reader createReaderFromFile(File file) throws IOException {
-		return createReaderFromFile(file, Charset.defaultCharset());
-	}
+
+    /**
+     * Create a reader from a byte array with correct encoding
+     *
+     * @param data           The byte[] to read from
+     * @param defaultCharset defaultCharset to use if can't be determined
+     * @return BufferedReader for the file with the correct encoding
+     * @throws IOException if some I/O error occurs
+     */
+    public static BufferedReader createBufferedReader(byte[] data, Charset defaultCharset) throws IOException {
+        Charset cs = Objects.requireNonNull(defaultCharset, "defaultCharset must be not null");
+        DetectedCharset detectedEncoding;
+        try (InputStream is = new ByteArrayInputStream(data)) {
+            detectedEncoding = UniversalDetector.detectCharset(is);
+        }
+
+        if (detectedEncoding != null) {
+            cs = detectedEncoding.getCharset();
+        }
+        if (!cs.name().contains("UTF")) {
+            return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data), cs));
+        }
+        return new BufferedReader(new InputStreamReader(new UnicodeBOMInputStream(new ByteArrayInputStream(data))));
+    }
+
+    /**
+     * Create a reader from a byte array with correct encoding. If charset cannot be determined,
+     * it uses the system default charset.
+     *
+     * @param data The byte[] to read from
+     * @return BufferedReader for the file with the correct encoding
+     * @throws IOException if some I/O error occurs
+     */
+    public static BufferedReader createBufferedReader(byte[] data) throws IOException {
+        return createBufferedReader(data, Charset.defaultCharset());
+    }
 }

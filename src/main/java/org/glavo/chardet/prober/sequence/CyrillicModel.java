@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.sequence;
 
+import org.glavo.chardet.DetectedCharset;
+
 public class CyrillicModel extends SequenceModel {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -47,13 +49,13 @@ public class CyrillicModel extends SequenceModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public CyrillicModel(short[] charToOrderMap, String name) {
+	public CyrillicModel(short[] charToOrderMap, DetectedCharset charset) {
         super(
                 charToOrderMap,
                 russianLangModel,
                 TYPICAL_POSITIVE_RATIO,
                 false,
-                name
+                charset
                 );
     }
     

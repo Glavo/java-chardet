@@ -37,18 +37,17 @@
 
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class Latin7Model extends GreekModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
 	public Latin7Model() {
-        super(latin7CharToOrderMap, Constants.CHARSET_ISO_8859_7);
+        super(latin7CharToOrderMap, DetectedCharset.ISO_8859_7);
     }
-    
-    
+
+
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////

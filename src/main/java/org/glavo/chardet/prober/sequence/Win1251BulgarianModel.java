@@ -37,15 +37,14 @@
 
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class Win1251BulgarianModel extends BulgarianModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
 	public Win1251BulgarianModel() {
-        super(win1251BulgarianCharToOrderMap, Constants.CHARSET_WINDOWS_1251);
+        super(win1251BulgarianCharToOrderMap, DetectedCharset.WINDOWS_1251);
     }
     
     

@@ -37,8 +37,7 @@
 
 package org.glavo.chardet.prober.statemachine;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class SJISSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
@@ -56,7 +55,7 @@ public class SJISSMModel extends SMModel {
                 SJIS_CLASS_FACTOR,
                 new PkgInt(PkgInt.INDEX_SHIFT_4BITS, PkgInt.SHIFT_MASK_4BITS, PkgInt.BIT_SHIFT_4BITS, PkgInt.UNIT_MASK_4BITS, sjisStateTable),
                 sjisCharLenTable,
-                Constants.CHARSET_SHIFT_JIS
+                DetectedCharset.SHIFT_JIS
                 );
     }
     

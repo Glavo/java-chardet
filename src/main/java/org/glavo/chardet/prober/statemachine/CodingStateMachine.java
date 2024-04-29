@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.statemachine;
 
+import org.glavo.chardet.DetectedCharset;
+
 public class CodingStateMachine {
     protected SMModel    model;
     protected int        currentState;
@@ -69,7 +71,7 @@ public class CodingStateMachine {
         this.currentState = SMModel.START;
     }
     
-	public String getCodingStateMachine() {
-        return this.model.getName();
+	public DetectedCharset getCodingStateMachine() {
+        return this.model.getCharset();
     }
 }

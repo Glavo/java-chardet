@@ -37,15 +37,14 @@
 
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class Ibm866Model extends CyrillicModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
 	public Ibm866Model() {
-        super(ibm866CharToOrderMap, Constants.CHARSET_IBM866);
+        super(ibm866CharToOrderMap, DetectedCharset.IBM866);
     }
     
     

@@ -37,8 +37,7 @@
 
 package org.glavo.chardet.prober.statemachine;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class HZSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
@@ -56,7 +55,7 @@ public class HZSMModel extends SMModel {
                 HZS_CLASS_FACTOR,
                 new PkgInt(PkgInt.INDEX_SHIFT_4BITS, PkgInt.SHIFT_MASK_4BITS, PkgInt.BIT_SHIFT_4BITS, PkgInt.UNIT_MASK_4BITS, hzsStateTable),
                 hzsCharLenTable,
-                Constants.CHARSET_HZ_GB_2312
+                DetectedCharset.HZ_GB_2312
                 );
     }
     

@@ -37,11 +37,10 @@
 
 package org.glavo.chardet.prober;
 
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.statemachine.CodingStateMachine;
 import org.glavo.chardet.prober.statemachine.SMModel;
 import org.glavo.chardet.prober.statemachine.UTF8SMModel;
-import org.glavo.chardet.Constants;
-
 
 public class UTF8Prober extends CharsetProber {
     ////////////////////////////////////////////////////////////////
@@ -71,8 +70,8 @@ public class UTF8Prober extends CharsetProber {
         reset();
     }
 
-	public String getCharSetName() {
-        return Constants.CHARSET_UTF_8;
+	public DetectedCharset getCharset() {
+        return DetectedCharset.UTF_8;
     }
 
 	public ProbingState handleData(final byte[] buf, int offset, int length) {

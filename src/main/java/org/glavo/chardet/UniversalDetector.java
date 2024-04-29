@@ -43,15 +43,6 @@
 
 package org.glavo.chardet;
 
-import static org.glavo.chardet.Constants.CHARSET_US_ASCII;
-import static org.glavo.chardet.Constants.CHARSET_UTF_16BE;
-import static org.glavo.chardet.Constants.CHARSET_UTF_16LE;
-import static org.glavo.chardet.Constants.CHARSET_UTF_32BE;
-import static org.glavo.chardet.Constants.CHARSET_UTF_32LE;
-import static org.glavo.chardet.Constants.CHARSET_UTF_8;
-import static org.glavo.chardet.Constants.CHARSET_X_ISO_10646_UCS_4_2143;
-import static org.glavo.chardet.Constants.CHARSET_X_ISO_10646_UCS_4_3412;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -84,13 +75,13 @@ public final class UniversalDetector {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private InputState  inputState;
-    private boolean     done;
-    private boolean     start;
-    private boolean     gotData;
-    private boolean     onlyPrintableASCII = true;
-    private byte        lastChar;
-    private String      detectedCharset;
+    private InputState          inputState;
+    private boolean             done;
+    private boolean             start;
+    private boolean             gotData;
+    private boolean             onlyPrintableASCII = true;
+    private byte                lastChar;
+    private DetectedCharset     detectedCharset;
 
     private CharsetProber[]     probers;
     private CharsetProber       escCharsetProber;
@@ -125,7 +116,7 @@ public final class UniversalDetector {
      * @return The detected encoding is returned. If the detector couldn't
      *          determine what encoding was used, null is returned.
      */
-    public String getDetectedCharset()  {
+    public DetectedCharset getDetectedCharset()  {
         return this.detectedCharset;
     }
     
@@ -161,7 +152,7 @@ public final class UniversalDetector {
         if (this.start) {
             this.start = false;
             if (length > 3) {
-                String detectedBOM = detectCharsetFromBOM(buf, offset);                
+                DetectedCharset detectedBOM = detectCharsetFromBOM(buf, offset);
                 if (detectedBOM != null) {
                 	this.detectedCharset = detectedBOM;
                     this.done = true;
@@ -215,14 +206,14 @@ public final class UniversalDetector {
             st = this.escCharsetProber.handleData(buf, offset, length);
             if (st == CharsetProber.ProbingState.FOUND_IT || 0.99f == this.escCharsetProber.getConfidence()) {
                 this.done = true;
-                this.detectedCharset = this.escCharsetProber.getCharSetName();
+                this.detectedCharset = this.escCharsetProber.getCharset();
             }
         } else if (this.inputState == InputState.HIGHBYTE) {
             for (int i=0; i<this.probers.length; ++i) {
                 st = this.probers[i].handleData(buf, offset, length);
                 if (st == CharsetProber.ProbingState.FOUND_IT) {
                     this.done = true;
-                    this.detectedCharset = this.probers[i].getCharSetName();
+                    this.detectedCharset = this.probers[i].getCharset();
                     return;
                 }
             }
@@ -231,11 +222,11 @@ public final class UniversalDetector {
         }
     }
     
-    public static String detectCharsetFromBOM(final byte[] buf) {
+    public static DetectedCharset detectCharsetFromBOM(final byte[] buf) {
     	return detectCharsetFromBOM(buf, 0);
     }
     
-	private static String detectCharsetFromBOM(final byte[] buf, int offset) {
+	private static DetectedCharset detectCharsetFromBOM(final byte[] buf, int offset) {
 		if (buf.length > (offset + 3)) {
 			int b1 = buf[offset] & 0xFF;
 			int b2 = buf[offset+1] & 0xFF;
@@ -245,28 +236,28 @@ public final class UniversalDetector {
 			switch (b1) {
 			case 0xEF:
 			    if (b2 == 0xBB && b3 == 0xBF) {
-			        return CHARSET_UTF_8;
+			        return DetectedCharset.UTF_8;
 			    }
 			    break;
 			case 0xFE:
 			    if (b2 == 0xFF && b3 == 0x00 && b4 == 0x00) {
-			        return CHARSET_X_ISO_10646_UCS_4_3412;
+			        return DetectedCharset.X_ISO_10646_UCS_4_3412;
 			    } else if (b2 == 0xFF) {
-			        return CHARSET_UTF_16BE;
+			        return DetectedCharset.UTF_16BE;
 			    }
 			    break;
 			case 0x00:
 			    if (b2 == 0x00 && b3 == 0xFE && b4 == 0xFF) {
-			        return CHARSET_UTF_32BE;
+			        return DetectedCharset.UTF_32BE;
 			    } else if (b2 == 0x00 && b3 == 0xFF && b4 == 0xFE) {
-			        return CHARSET_X_ISO_10646_UCS_4_2143;
+			        return DetectedCharset.X_ISO_10646_UCS_4_2143;
 			    }
 			    break;
 			case 0xFF:
 			    if (b2 == 0xFE && b3 == 0x00 && b4 == 0x00) {
-			        return CHARSET_UTF_32LE;
+			        return DetectedCharset.UTF_32LE;
 			    } else if (b2 == 0xFE) {
-			        return CHARSET_UTF_16LE;
+			        return DetectedCharset.UTF_16LE;
 			    }
 			    break;
 			default: 
@@ -305,7 +296,7 @@ public final class UniversalDetector {
             }
             
             if (maxProberConfidence > MINIMUM_THRESHOLD) {
-                this.detectedCharset = this.probers[maxProber].getCharSetName();
+                this.detectedCharset = this.probers[maxProber].getCharset();
                 if (this.listener != null) {
                     this.listener.report(this.detectedCharset);
                 }
@@ -313,7 +304,7 @@ public final class UniversalDetector {
         } else if (this.inputState == InputState.ESC_ASCII) {
             // do nothing
         } else if (this.inputState == InputState.PURE_ASCII && this.onlyPrintableASCII) {
-        	this.detectedCharset = CHARSET_US_ASCII;
+        	this.detectedCharset = DetectedCharset.US_ASCII;
         }
         else {
             // do nothing
@@ -323,7 +314,7 @@ public final class UniversalDetector {
     /**
      * Resets detector to be used again.
      */
-	public final void reset() {
+	public void reset() {
         this.done = false;
         this.start = true;
         this.detectedCharset = null;
@@ -349,7 +340,7 @@ public final class UniversalDetector {
      * @return The charset of the file, null if cannot be determined
      * @throws IOException if some IO error occurs
      */
-    public static String detectCharset(File file) throws IOException {
+    public static DetectedCharset detectCharset(File file) throws IOException {
         return detectCharset(file.toPath());
     }
 
@@ -360,7 +351,7 @@ public final class UniversalDetector {
      * @return The charset of the file, null if cannot be determined
      * @throws IOException if some IO error occurs
      */
-    public static String detectCharset(Path path) throws IOException {
+    public static DetectedCharset detectCharset(Path path) throws IOException {
         try (InputStream fis = new BufferedInputStream(Files.newInputStream(path))) {
             return detectCharset(fis);
         }
@@ -373,7 +364,7 @@ public final class UniversalDetector {
      * @return The charset of the file, null if cannot be determined
      * @throws IOException if some IO error occurs
      */
-    public static String detectCharset(InputStream inputStream) throws IOException {
+    public static DetectedCharset detectCharset(InputStream inputStream) throws IOException {
         byte[] buf = new byte[4096];
 
         UniversalDetector detector = new UniversalDetector(null);
@@ -384,7 +375,7 @@ public final class UniversalDetector {
         }
         detector.dataEnd();
 
-        String encoding = detector.getDetectedCharset();
+        DetectedCharset encoding = detector.getDetectedCharset();
         detector.reset();
         return encoding;
     }

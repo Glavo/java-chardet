@@ -47,5 +47,5 @@ public interface CharsetListener {
 	 * Notifies a charset is detected
 	 * @param charset The charset being detected
 	 */
-	void report(String charset);
+	void report(DetectedCharset charset);
 }

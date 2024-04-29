@@ -37,15 +37,14 @@
 
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class MacCyrillicModel extends CyrillicModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
 	public MacCyrillicModel() {
-        super(macCyrillicCharToOrderMap, Constants.CHARSET_MACCYRILLIC);
+        super(macCyrillicCharToOrderMap, DetectedCharset.MAC_CYRILLIC);
     }
     
     

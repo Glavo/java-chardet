@@ -37,8 +37,7 @@
 
 package org.glavo.chardet.prober.statemachine;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class EUCKRSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
@@ -56,7 +55,7 @@ public class EUCKRSMModel extends SMModel {
                 EUCKR_CLASS_FACTOR,
                 new PkgInt(PkgInt.INDEX_SHIFT_4BITS, PkgInt.SHIFT_MASK_4BITS, PkgInt.BIT_SHIFT_4BITS, PkgInt.UNIT_MASK_4BITS, euckrStateTable),
                 euckrCharLenTable,
-                Constants.CHARSET_EUC_KR
+                DetectedCharset.EUC_KR
                 );
     }
     

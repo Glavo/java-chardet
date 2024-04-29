@@ -37,13 +37,12 @@
 
 package org.glavo.chardet.prober;
 
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.distributionanalysis.EUCJPDistributionAnalysis;
 import org.glavo.chardet.prober.statemachine.CodingStateMachine;
 import org.glavo.chardet.prober.statemachine.EUCJPSMModel;
 import org.glavo.chardet.prober.statemachine.SMModel;
 import org.glavo.chardet.prober.contextanalysis.EUCJPContextAnalysis;
-import org.glavo.chardet.Constants;
-
 
 public class EUCJPProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
@@ -73,8 +72,8 @@ public class EUCJPProber extends CharsetProber {
     }
 
     @Override
-	public String getCharSetName() {
-        return Constants.CHARSET_EUC_JP;
+	public DetectedCharset getCharset() {
+        return DetectedCharset.EUC_JP;
     }
 
     @Override

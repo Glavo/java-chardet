@@ -37,15 +37,14 @@
 
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class Latin5BulgarianModel extends BulgarianModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
 	public Latin5BulgarianModel() {
-        super(latin5BulgarianCharToOrderMap, Constants.CHARSET_ISO_8859_5);
+        super(latin5BulgarianCharToOrderMap, DetectedCharset.ISO_8859_5);
     }
     
     

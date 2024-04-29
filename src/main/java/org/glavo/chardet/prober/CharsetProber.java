@@ -38,6 +38,8 @@
 
 package org.glavo.chardet.prober;
 
+import org.glavo.chardet.DetectedCharset;
+
 import java.nio.ByteBuffer;
 
 
@@ -71,7 +73,7 @@ public abstract class CharsetProber {
 		super();
 	}
     
-    public abstract String getCharSetName();
+    public abstract DetectedCharset getCharset();
     public abstract ProbingState handleData(final byte[] buf, int offset, int length);
     public abstract ProbingState getState();
     public abstract void reset();

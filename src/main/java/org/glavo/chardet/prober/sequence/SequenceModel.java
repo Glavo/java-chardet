@@ -38,6 +38,8 @@
 
 package org.glavo.chardet.prober.sequence;
 
+import org.glavo.chardet.DetectedCharset;
+
 public abstract class SequenceModel {
     ////////////////////////////////////////////////////////////////
     // fields
@@ -46,7 +48,7 @@ public abstract class SequenceModel {
     protected byte[]    precedenceMatrix;
     protected float     typicalPositiveRatio;
     protected boolean   keepEnglishLetter;
-    protected String    charsetName;
+    protected DetectedCharset charset;
     
 
     ////////////////////////////////////////////////////////////////
@@ -57,14 +59,14 @@ public abstract class SequenceModel {
             byte[] precedenceMatrix,
             float typicalPositiveRatio,
             boolean keepEnglishLetter,
-            String charsetName)
+            DetectedCharset charset)
     {
     	super();
         this.charToOrderMap = charToOrderMap.clone();
         this.precedenceMatrix = precedenceMatrix.clone();
         this.typicalPositiveRatio = typicalPositiveRatio;
         this.keepEnglishLetter = keepEnglishLetter;
-        this.charsetName = charsetName;
+        this.charset = charset;
     }
     
     public short getOrder(byte b)
@@ -88,8 +90,7 @@ public abstract class SequenceModel {
         return this.keepEnglishLetter;
     }
     
-    public String getCharsetName()
-    {
-        return this.charsetName;
+    public DetectedCharset getCharset() {
+        return this.charset;
     }
 }

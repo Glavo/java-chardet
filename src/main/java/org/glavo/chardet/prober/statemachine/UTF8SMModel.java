@@ -38,7 +38,7 @@
 
 package org.glavo.chardet.prober.statemachine;
 
-import org.glavo.chardet.Constants;
+import org.glavo.chardet.DetectedCharset;
 
 public class UTF8SMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ public class UTF8SMModel extends SMModel {
                 UTF8_CLASS_FACTOR,
                 new PkgInt(PkgInt.INDEX_SHIFT_4BITS, PkgInt.SHIFT_MASK_4BITS, PkgInt.BIT_SHIFT_4BITS, PkgInt.UNIT_MASK_4BITS, utf8StateTable),
                 utf8CharLenTable,
-                Constants.CHARSET_UTF_8
+                DetectedCharset.UTF_8
                 );
     }
     

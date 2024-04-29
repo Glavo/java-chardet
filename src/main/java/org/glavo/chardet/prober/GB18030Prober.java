@@ -38,12 +38,11 @@
 
 package org.glavo.chardet.prober;
 
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.distributionanalysis.GB2312DistributionAnalysis;
 import org.glavo.chardet.prober.statemachine.CodingStateMachine;
 import org.glavo.chardet.prober.statemachine.GB18030SMModel;
 import org.glavo.chardet.prober.statemachine.SMModel;
-import org.glavo.chardet.Constants;
-
 
 public class GB18030Prober extends CharsetProber {
     ////////////////////////////////////////////////////////////////
@@ -71,8 +70,8 @@ public class GB18030Prober extends CharsetProber {
     }
     
     @Override
-	public String getCharSetName() {
-        return Constants.CHARSET_GB18030;
+	public DetectedCharset getCharset() {
+        return DetectedCharset.GB18030;
     }
 
     @Override

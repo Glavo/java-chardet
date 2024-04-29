@@ -37,6 +37,7 @@
 
 package org.glavo.chardet.prober;
 
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.statemachine.CodingStateMachine;
 import org.glavo.chardet.prober.statemachine.SMModel;
 import org.glavo.chardet.prober.statemachine.HZSMModel;
@@ -52,7 +53,7 @@ public class EscCharsetProber extends CharsetProber {
     private CodingStateMachine[]    codingSM;
     private int                     activeSM;
     private ProbingState            state;
-    private String                  detectedCharset;
+    private DetectedCharset         detectedCharset;
     
     private static final HZSMModel hzsModel = new HZSMModel();
     private static final ISO2022CNSMModel iso2022cnModel = new ISO2022CNSMModel();
@@ -76,7 +77,7 @@ public class EscCharsetProber extends CharsetProber {
     }
     
     @Override
-	public String getCharSetName() {
+	public String getCharset() {
         return this.detectedCharset;
     }
 
@@ -123,9 +124,9 @@ public class EscCharsetProber extends CharsetProber {
     @Override
 	public final void reset() {
 		this.state = ProbingState.DETECTING;
-		for (int i = 0; i < this.codingSM.length; ++i) {
-			this.codingSM[i].reset();
-		}
+        for (CodingStateMachine codingStateMachine : this.codingSM) {
+            codingStateMachine.reset();
+        }
 		this.activeSM = this.codingSM.length;
 		this.detectedCharset = null;
 	}

@@ -37,8 +37,7 @@
 
 package org.glavo.chardet.prober.statemachine;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class GB18030SMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
@@ -56,7 +55,7 @@ public class GB18030SMModel extends SMModel {
                 GB18030_CLASS_FACTOR,
                 new PkgInt(PkgInt.INDEX_SHIFT_4BITS, PkgInt.SHIFT_MASK_4BITS, PkgInt.BIT_SHIFT_4BITS, PkgInt.UNIT_MASK_4BITS, gb18030StateTable),
                 gb18030CharLenTable,
-                Constants.CHARSET_GB18030
+                DetectedCharset.GB18030
                 );
     }
     

@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.sequence;
 
+import org.glavo.chardet.DetectedCharset;
+
 public class BulgarianModel extends SequenceModel {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -47,13 +49,13 @@ public class BulgarianModel extends SequenceModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public BulgarianModel(short[] charToOrderMap, String name) {
+	public BulgarianModel(short[] charToOrderMap, DetectedCharset charset) {
         super(
                 charToOrderMap,
                 bulgarianLangModel,
                 TYPICAL_POSITIVE_RATIO,
                 false,
-                name);
+                charset);
     }
     
     

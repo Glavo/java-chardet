@@ -38,6 +38,8 @@
 
 package org.glavo.chardet.prober;
 
+import org.glavo.chardet.DetectedCharset;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,14 +73,14 @@ public class MBCSGroupProber extends CharsetProber {
 	}
 
     @Override
-	public String getCharSetName() {
+	public DetectedCharset getCharset() {
 		if (this.bestGuess == null) {
 			getConfidence();
 			if (this.bestGuess == null) {
 				this.bestGuess = probers.get(0);
 			}
 		}
-		return this.bestGuess.getCharSetName();
+		return this.bestGuess.getCharset();
 	}
 
     @Override

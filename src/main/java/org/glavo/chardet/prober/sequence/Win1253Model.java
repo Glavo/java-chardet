@@ -36,15 +36,14 @@
  * ***** END LICENSE BLOCK ***** */
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class Win1253Model extends GreekModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
 	public Win1253Model() {
-        super(win1253CharToOrderMap, Constants.CHARSET_WINDOWS_1253);
+        super(win1253CharToOrderMap, DetectedCharset.WINDOWS_1253);
     }
     
     

@@ -37,15 +37,14 @@
 
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class Koi8rModel extends CyrillicModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
 	public Koi8rModel() {
-        super(koi8rCharToOrderMap, Constants.CHARSET_KOI8_R);
+        super(koi8rCharToOrderMap, DetectedCharset.KOI8_R);
     }
     
     

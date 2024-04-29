@@ -37,15 +37,14 @@
 
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class Latin5Model extends CyrillicModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
 	public Latin5Model() {
-        super(latin5CharToOrderMap, Constants.CHARSET_ISO_8859_5);
+        super(latin5CharToOrderMap, DetectedCharset.ISO_8859_5);
     }
     
     

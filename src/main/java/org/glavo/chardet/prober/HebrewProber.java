@@ -37,8 +37,7 @@
 
 package org.glavo.chardet.prober;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class HebrewProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
@@ -89,32 +88,32 @@ public class HebrewProber extends CharsetProber {
     }
 
     @Override
-	public String getCharSetName() {
+	public DetectedCharset getCharset() {
         // If the final letter score distance is dominant enough, rely on it.
         int finalsub = this.finalCharLogicalScore - this.finalCharVisualScore;
         if (finalsub >= MIN_FINAL_CHAR_DISTANCE) {
-            return Constants.CHARSET_WINDOWS_1255;
+            return DetectedCharset.WINDOWS_1255;
         }
         if (finalsub <= -MIN_FINAL_CHAR_DISTANCE) {
-            return Constants.CHARSET_ISO_8859_8;
+            return DetectedCharset.ISO_8859_8;
         }
         
         // It's not dominant enough, try to rely on the model scores instead.
         float modelsub = this.logicalProber.getConfidence() - this.visualProber.getConfidence();
         if (modelsub > MIN_MODEL_DISTANCE) {
-            return Constants.CHARSET_WINDOWS_1255;
+            return DetectedCharset.WINDOWS_1255;
         }
         if (modelsub < -MIN_MODEL_DISTANCE) {
-            return Constants.CHARSET_ISO_8859_8;
+            return DetectedCharset.ISO_8859_8;
         }
         
         // Still no good, back to final letter distance, maybe it'll save the day.
         if (finalsub < 0) {
-            return Constants.CHARSET_ISO_8859_8;
+            return DetectedCharset.ISO_8859_8;
         }
         
         // (finalsub > 0 - Logical) or (don't know what to do) default to Logical.
-        return Constants.CHARSET_WINDOWS_1255;
+        return DetectedCharset.WINDOWS_1255;
     }
 
     @Override

@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.sequence;
 
+import org.glavo.chardet.DetectedCharset;
+
 public class GreekModel extends SequenceModel {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -47,13 +49,13 @@ public class GreekModel extends SequenceModel {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public GreekModel(short[] charToOrderMap, String name) {
+	public GreekModel(short[] charToOrderMap, DetectedCharset charset) {
         super(
                 charToOrderMap,
                 greekLangModel,
                 TYPICAL_POSITIVE_RATIO,
                 false,
-                name
+                charset
                 );
     }
     

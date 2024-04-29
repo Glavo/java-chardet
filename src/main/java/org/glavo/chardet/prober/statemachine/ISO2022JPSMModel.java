@@ -38,8 +38,7 @@
 
 package org.glavo.chardet.prober.statemachine;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class ISO2022JPSMModel extends SMModel {
     ////////////////////////////////////////////////////////////////
@@ -57,7 +56,7 @@ public class ISO2022JPSMModel extends SMModel {
                 ISO2022JP_CLASS_FACTOR,
                 new PkgInt(PkgInt.INDEX_SHIFT_4BITS, PkgInt.SHIFT_MASK_4BITS, PkgInt.BIT_SHIFT_4BITS, PkgInt.UNIT_MASK_4BITS, iso2022jpStateTable),
                 iso2022jpCharLenTable,
-                Constants.CHARSET_ISO_2022_JP
+                DetectedCharset.ISO_2022_JP
                 );
     }
     

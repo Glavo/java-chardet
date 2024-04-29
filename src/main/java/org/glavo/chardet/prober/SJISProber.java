@@ -37,13 +37,12 @@
 
 package org.glavo.chardet.prober;
 
-import org.glavo.chardet.Constants;
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.contextanalysis.SJISContextAnalysis;
 import org.glavo.chardet.prober.distributionanalysis.SJISDistributionAnalysis;
 import org.glavo.chardet.prober.statemachine.CodingStateMachine;
 import org.glavo.chardet.prober.statemachine.SJISSMModel;
 import org.glavo.chardet.prober.statemachine.SMModel;
-
 
 public class SJISProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
@@ -73,8 +72,8 @@ public class SJISProber extends CharsetProber {
     }
 
     @Override
-	public String getCharSetName() {
-        return Constants.CHARSET_SHIFT_JIS;
+	public DetectedCharset getCharset() {
+        return DetectedCharset.SHIFT_JIS;
     }
 
     @Override

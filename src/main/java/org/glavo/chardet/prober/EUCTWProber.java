@@ -38,12 +38,11 @@
 
 package org.glavo.chardet.prober;
 
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.distributionanalysis.EUCTWDistributionAnalysis;
 import org.glavo.chardet.prober.statemachine.CodingStateMachine;
 import org.glavo.chardet.prober.statemachine.EUCTWSMModel;
 import org.glavo.chardet.prober.statemachine.SMModel;
-import org.glavo.chardet.Constants;
-
 
 public class EUCTWProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
@@ -71,8 +70,8 @@ public class EUCTWProber extends CharsetProber {
     }
     
     @Override
-	public String getCharSetName() {
-        return Constants.CHARSET_EUC_TW;
+	public DetectedCharset getCharset() {
+        return DetectedCharset.EUC_TW;
     }
 
     @Override

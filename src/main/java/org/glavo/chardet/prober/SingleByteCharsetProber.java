@@ -38,6 +38,7 @@
 
 package org.glavo.chardet.prober;
 
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.sequence.SequenceModel;
 
 public class SingleByteCharsetProber extends CharsetProber {
@@ -102,11 +103,11 @@ public class SingleByteCharsetProber extends CharsetProber {
     }
 
     @Override
-	public String getCharSetName() {
+	public DetectedCharset getCharset() {
         if (this.nameProber == null) {
-            return this.model.getCharsetName();
+            return this.model.getCharset();
         } else {
-            return this.nameProber.getCharSetName();
+            return this.nameProber.getCharset();
         }
     }
 

@@ -37,12 +37,11 @@
 
 package org.glavo.chardet.prober;
 
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.distributionanalysis.EUCKRDistributionAnalysis;
 import org.glavo.chardet.prober.statemachine.CodingStateMachine;
 import org.glavo.chardet.prober.statemachine.EUCKRSMModel;
 import org.glavo.chardet.prober.statemachine.SMModel;
-import org.glavo.chardet.Constants;
-
 
 public class EUCKRProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
@@ -70,8 +69,8 @@ public class EUCKRProber extends CharsetProber {
     }
     
     @Override
-	public String getCharSetName() {
-        return Constants.CHARSET_EUC_KR;
+	public DetectedCharset getCharset() {
+        return DetectedCharset.EUC_KR;
     }
 
     @Override

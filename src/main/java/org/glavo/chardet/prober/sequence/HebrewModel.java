@@ -39,8 +39,7 @@
 
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
-
+import org.glavo.chardet.DetectedCharset;
 
 public class HebrewModel extends SequenceModel {
     ////////////////////////////////////////////////////////////////
@@ -58,7 +57,7 @@ public class HebrewModel extends SequenceModel {
                 hebrewLangModel,
                 TYPICAL_POSITIVE_RATIO,
                 false,
-                Constants.CHARSET_WINDOWS_1255);
+                DetectedCharset.WINDOWS_1255);
     }
     
     

@@ -38,7 +38,7 @@
 
 package org.glavo.chardet.prober;
 
-import org.glavo.chardet.Constants;
+import org.glavo.chardet.DetectedCharset;
 import org.glavo.chardet.prober.distributionanalysis.Big5DistributionAnalysis;
 import org.glavo.chardet.prober.statemachine.Big5SMModel;
 import org.glavo.chardet.prober.statemachine.CodingStateMachine;
@@ -71,8 +71,8 @@ public class Big5Prober extends CharsetProber {
     }
 
     @Override
-	public String getCharSetName() {
-        return Constants.CHARSET_BIG5;
+	public DetectedCharset getCharset() {
+        return DetectedCharset.BIG5;
     }
 
     @Override

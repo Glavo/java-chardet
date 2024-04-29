@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.statemachine;
 
+import org.glavo.chardet.DetectedCharset;
+
 public abstract class SMModel {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -49,11 +51,11 @@ public abstract class SMModel {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    protected PkgInt    classTable;
-    protected int       classFactor;
-    protected PkgInt    stateTable;
-    protected int[]     charLenTable;
-    protected String    name;
+    protected PkgInt            classTable;
+    protected int               classFactor;
+    protected PkgInt            stateTable;
+    protected int[]             charLenTable;
+    protected DetectedCharset   charset;
     
     
     ////////////////////////////////////////////////////////////////
@@ -64,14 +66,14 @@ public abstract class SMModel {
             int classFactor,
             PkgInt stateTable,
             int[] charLenTable,
-            String name)
+            DetectedCharset charset)
     {
     	super();
         this.classTable = classTable;
         this.classFactor = classFactor;
         this.stateTable = stateTable;
         this.charLenTable = charLenTable.clone();
-        this.name = name;
+        this.charset = charset;
     }
 
 	public int getClass(byte b) {
@@ -87,7 +89,7 @@ public abstract class SMModel {
         return this.charLenTable[cls];
     }
     
-	public String getName() {
-        return this.name;
+	public DetectedCharset getCharset() {
+        return this.charset;
     }
 }

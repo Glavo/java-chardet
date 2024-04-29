@@ -37,7 +37,7 @@
 
 package org.glavo.chardet.prober.statemachine;
 
-import org.glavo.chardet.Constants;
+import org.glavo.chardet.DetectedCharset;
 
 
 public class Big5SMModel extends SMModel {
@@ -56,7 +56,7 @@ public class Big5SMModel extends SMModel {
                 BIG5_CLASS_FACTOR,
                 new PkgInt(PkgInt.INDEX_SHIFT_4BITS, PkgInt.SHIFT_MASK_4BITS, PkgInt.BIT_SHIFT_4BITS, PkgInt.UNIT_MASK_4BITS, big5StateTable),
                 big5CharLenTable,
-                Constants.CHARSET_BIG5
+                DetectedCharset.BIG5
                 );
     }
     

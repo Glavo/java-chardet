@@ -37,7 +37,7 @@
 
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
+import org.glavo.chardet.DetectedCharset;
 
 
 public class Win1251Model extends CyrillicModel {
@@ -45,7 +45,7 @@ public class Win1251Model extends CyrillicModel {
     // methods
     ////////////////////////////////////////////////////////////////
 	public Win1251Model() {
-        super(win1251CharToOrderMap, Constants.CHARSET_WINDOWS_1251);
+        super(win1251CharToOrderMap, DetectedCharset.WINDOWS_1251);
     }
     
 

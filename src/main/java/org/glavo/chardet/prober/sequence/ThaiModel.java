@@ -39,7 +39,7 @@
 
 package org.glavo.chardet.prober.sequence;
 
-import org.glavo.chardet.Constants;
+import org.glavo.chardet.DetectedCharset;
 
 public class ThaiModel extends SequenceModel {
 
@@ -52,7 +52,7 @@ public class ThaiModel extends SequenceModel {
     // methods
     // //////////////////////////////////////////////////////////////
 	public ThaiModel() {
-        super(thaiCharToOrderMap, thaiLangModel, TYPICAL_POSITIVE_RATIO, false, Constants.CHARSET_TIS620);
+        super(thaiCharToOrderMap, thaiLangModel, TYPICAL_POSITIVE_RATIO, false, DetectedCharset.TIS620);
     }
 
     // //////////////////////////////////////////////////////////////
