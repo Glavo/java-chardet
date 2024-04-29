@@ -49,7 +49,7 @@ public class Big5Prober extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private CodingStateMachine codingSM;
+    private final CodingStateMachine codingSM;
     private ProbingState                state;
     
     private final Big5DistributionAnalysis distributionAnalyzer;
