@@ -38,6 +38,8 @@
 package org.glavo.chardet.prober.contextanalysis;
 
 
+import java.nio.ByteBuffer;
+
 public final class EUCJPContextAnalysis extends JapaneseContextAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -54,16 +56,16 @@ public final class EUCJPContextAnalysis extends JapaneseContextAnalysis {
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public EUCJPContextAnalysis() {
+    public EUCJPContextAnalysis() {
         super();
     }
 
     @Override
-	protected void getOrder(Order order, final byte[] buf, int offset) {
+    protected void getOrder(Order order, final ByteBuffer buf, int offset) {
         order.order = -1;
         order.charLength = 1;
 
-        int firstByte = buf[offset] & 0xFF;
+        int firstByte = buf.get(offset) & 0xFF;
         if (firstByte == SINGLE_SHIFT_2 ||
             (firstByte >= FIRSTPLANE_HIGHBYTE_BEGIN &&
              firstByte <= FIRSTPLANE_HIGHBYTE_END)) {
@@ -73,7 +75,7 @@ public final class EUCJPContextAnalysis extends JapaneseContextAnalysis {
         }
 
         if (firstByte == HIRAGANA_HIGHBYTE) {
-            int secondByte = buf[offset+1] & 0xFF;
+            int secondByte = buf.get(offset + 1) & 0xFF;
             if (secondByte >= HIRAGANA_LOWBYTE_BEGIN &&
                 secondByte <= HIRAGANA_LOWBYTE_END) {
                 order.order = (secondByte - HIRAGANA_LOWBYTE_BEGIN);
@@ -82,10 +84,10 @@ public final class EUCJPContextAnalysis extends JapaneseContextAnalysis {
     }
 
     @Override
-	protected int getOrder(final byte[] buf, int offset) {
-        int highbyte = buf[offset] & 0xFF;
+    protected int getOrder(final ByteBuffer buf, int offset) {
+        int highbyte = buf.get(offset) & 0xFF;
         if (highbyte == HIRAGANA_HIGHBYTE) {
-            int lowbyte = buf[offset+1] & 0xFF;
+            int lowbyte = buf.get(offset + 1) & 0xFF;
             if (lowbyte >= HIRAGANA_LOWBYTE_BEGIN &&
                 lowbyte <= HIRAGANA_LOWBYTE_END) {
                 return (lowbyte - HIRAGANA_LOWBYTE_BEGIN);

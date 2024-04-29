@@ -44,58 +44,60 @@ import org.glavo.chardet.prober.statemachine.EUCJPSMModel;
 import org.glavo.chardet.prober.statemachine.SMModel;
 import org.glavo.chardet.prober.contextanalysis.EUCJPContextAnalysis;
 
-public class EUCJPProber extends CharsetProber {
+import java.nio.ByteBuffer;
+
+public final class EUCJPProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private final CodingStateMachine            codingSM;
-    private ProbingState                        state;
-    
-    private final EUCJPContextAnalysis          contextAnalyzer;
-    private final EUCJPDistributionAnalysis     distributionAnalyzer;
-    
-    private final byte[]                        lastChar;
+    private final CodingStateMachine codingSM;
+    private ProbingState state;
+
+    private final EUCJPContextAnalysis contextAnalyzer;
+    private final EUCJPDistributionAnalysis distributionAnalyzer;
+
+    private final ByteBuffer lastChar;
 
     private static final SMModel smModel = new EUCJPSMModel();
 
-    
+
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public EUCJPProber() {
+    public EUCJPProber() {
         super();
         this.codingSM = new CodingStateMachine(smModel);
         this.contextAnalyzer = new EUCJPContextAnalysis();
         this.distributionAnalyzer = new EUCJPDistributionAnalysis();
-        this.lastChar = new byte[2];
+        this.lastChar = ByteBuffer.allocate(2);
         reset();
     }
 
     @Override
-	public DetectedCharset getCharset() {
+    public DetectedCharset getCharset() {
         return DetectedCharset.EUC_JP;
     }
 
     @Override
-	public float getConfidence() {
+    public float getConfidence() {
         float contextCf = this.contextAnalyzer.getConfidence();
         float distribCf = this.distributionAnalyzer.getConfidence();
-        
+
         return Math.max(contextCf, distribCf);
     }
 
     @Override
-	public ProbingState getState() {
+    public ProbingState getState() {
         return this.state;
     }
 
     @Override
-	public ProbingState handleData(byte[] buf, int offset, int length) {
+    public ProbingState handleData(ByteBuffer buf, int offset, int length) {
         int codingState;
-        
+
         int maxPos = offset + length;
-        for (int i=offset; i<maxPos; ++i) {
-            codingState = this.codingSM.nextState(buf[i]);
+        for (int i = offset; i < maxPos; ++i) {
+            codingState = this.codingSM.nextState(buf.get(i));
             if (codingState == SMModel.ERROR) {
                 this.state = ProbingState.NOT_ME;
                 break;
@@ -106,39 +108,39 @@ public class EUCJPProber extends CharsetProber {
             }
             if (codingState == SMModel.START) {
                 int charLen = this.codingSM.getCurrentCharLen();
-                
+
                 if (i == offset) {
-                    this.lastChar[1] = buf[offset];
+                    this.lastChar.put(1, buf.get(offset));
                     this.contextAnalyzer.handleOneChar(this.lastChar, 0, charLen);
                     this.distributionAnalyzer.handleOneChar(this.lastChar, 0, charLen);
                 } else {
-                    this.contextAnalyzer.handleOneChar(buf, i-1, charLen);
-                    this.distributionAnalyzer.handleOneChar(buf, i-1, charLen);
+                    this.contextAnalyzer.handleOneChar(buf, i - 1, charLen);
+                    this.distributionAnalyzer.handleOneChar(buf, i - 1, charLen);
                 }
             }
         }
-        
-        this.lastChar[0] = buf[maxPos-1];
-        
+
+        this.lastChar.put(0, buf.get(maxPos - 1));
+
         if (this.state == ProbingState.DETECTING) {
             if (this.contextAnalyzer.gotEnoughData() && getConfidence() > SHORTCUT_THRESHOLD) {
                 this.state = ProbingState.FOUND_IT;
             }
         }
-        
+
         return this.state;
     }
 
     @Override
-	public final void reset() {
+    public final void reset() {
         this.codingSM.reset();
         this.state = ProbingState.DETECTING;
         this.contextAnalyzer.reset();
         this.distributionAnalyzer.reset();
-        java.util.Arrays.fill(this.lastChar, (byte)0);
+        java.util.Arrays.fill(this.lastChar.array(), (byte) 0);
     }
 
     @Override
-	public void setOption() {
-	}
+    public void setOption() {
+    }
 }

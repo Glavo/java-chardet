@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.distributionanalysis;
 
+import java.nio.ByteBuffer;
+
 public final class EUCJPDistributionAnalysis extends JISDistributionAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -45,20 +47,20 @@ public final class EUCJPDistributionAnalysis extends JISDistributionAnalysis {
     public static final int HIGHBYTE_END = 0xFE;
     public static final int LOWBYTE_BEGIN = 0xA1;
     public static final int LOWBYTE_END = 0xFE;
-    
+
 
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public EUCJPDistributionAnalysis() {
+    public EUCJPDistributionAnalysis() {
         super();
     }
 
     @Override
-	protected int getOrder(final byte[] buf, int offset) {
-        int highbyte = buf[offset] & 0xFF;
+    protected int getOrder(final ByteBuffer buf, int offset) {
+        int highbyte = buf.get(offset) & 0xFF;
         if (highbyte >= HIGHBYTE_BEGIN) {
-            int lowbyte = buf[offset+1] & 0xFF;
+            int lowbyte = buf.get(offset + 1) & 0xFF;
             return (94 * (highbyte - HIGHBYTE_BEGIN) + lowbyte - LOWBYTE_BEGIN);
         } else {
             return -1;

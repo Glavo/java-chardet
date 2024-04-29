@@ -24,4 +24,7 @@ tasks.withType<JavaCompile> {
 
 tasks.test {
     useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+    }
 }

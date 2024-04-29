@@ -45,7 +45,9 @@ import org.glavo.chardet.prober.statemachine.ISO2022CNSMModel;
 import org.glavo.chardet.prober.statemachine.ISO2022JPSMModel;
 import org.glavo.chardet.prober.statemachine.ISO2022KRSMModel;
 
-public class EscCharsetProber extends CharsetProber {
+import java.nio.ByteBuffer;
+
+public final class EscCharsetProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
@@ -91,13 +93,13 @@ public class EscCharsetProber extends CharsetProber {
     }
 
     @Override
-	public ProbingState handleData(byte[] buf, int offset, int length) {
+    public ProbingState handleData(ByteBuffer buf, int offset, int length) {
         int codingState;
-        
+
         int maxPos = offset + length;
-        for (int i=offset; i<maxPos && this.state==ProbingState.DETECTING; ++i) {
-            for (int j=this.activeSM-1; j>=0; --j) {
-                codingState = this.codingSM[j].nextState(buf[i]);
+        for (int i = offset; i < maxPos && this.state == ProbingState.DETECTING; ++i) {
+            for (int j = this.activeSM - 1; j >= 0; --j) {
+                codingState = this.codingSM[j].nextState(buf.get(i));
                 if (codingState == SMModel.ERROR) {
                     --this.activeSM;
                     if (this.activeSM <= 0) {
@@ -116,12 +118,12 @@ public class EscCharsetProber extends CharsetProber {
                 }
             }
         }
-        
+
         return this.state;
     }
 
     @Override
-	public final void reset() {
+	public void reset() {
 		this.state = ProbingState.DETECTING;
         for (CodingStateMachine codingStateMachine : this.codingSM) {
             codingStateMachine.reset();

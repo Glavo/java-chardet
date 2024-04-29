@@ -69,8 +69,7 @@ public abstract class SequenceModel {
         this.charset = charset;
     }
     
-    public short getOrder(byte b)
-    {
+    public short getOrder(byte b) {
         int c = b & 0xFF;
         return this.charToOrderMap[c];
     }

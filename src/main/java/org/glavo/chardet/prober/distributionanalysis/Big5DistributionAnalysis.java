@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.distributionanalysis;
 
+import java.nio.ByteBuffer;
+
 public final class Big5DistributionAnalysis extends CharDistributionAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -58,11 +60,12 @@ public final class Big5DistributionAnalysis extends CharDistributionAnalysis {
         this.charToFreqOrder = big5CharToFreqOrder;
         this.typicalDistributionRatio = BIG5_TYPICAL_DISTRIBUTION_RATIO;
     }
-    
-	protected int getOrder(final byte[] buf, int offset) {
-        int highbyte = buf[offset] & 0xFF;
+
+    @Override
+	protected int getOrder(final ByteBuffer buf, int offset) {
+        int highbyte = buf.get(offset) & 0xFF;
         if (highbyte >= HIGHBYTE_BEGIN) {
-            int lowbyte = buf[offset+1] & 0xFF;
+            int lowbyte = buf.get(offset + 1) & 0xFF;
             if (lowbyte >= LOWBYTE_BEGIN_2) {
                 return (157 * (highbyte - HIGHBYTE_BEGIN) + lowbyte - LOWBYTE_BEGIN_2 + 63);
             } else {

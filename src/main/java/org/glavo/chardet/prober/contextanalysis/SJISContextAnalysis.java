@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.contextanalysis;
 
+import java.nio.ByteBuffer;
+
 public final class SJISContextAnalysis extends JapaneseContextAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -48,28 +50,28 @@ public final class SJISContextAnalysis extends JapaneseContextAnalysis {
     public static final int HIGHBYTE_END_1 = 0x9F;
     public static final int HIGHBYTE_BEGIN_2 = 0xE0;
     public static final int HIGHBYTE_END_2 = 0xEF;
-    
+
 
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public SJISContextAnalysis() {
+    public SJISContextAnalysis() {
         super();
     }
 
     @Override
-	protected void getOrder(Order order, final byte[] buf, int offset) {
+    protected void getOrder(Order order, final ByteBuffer buf, int offset) {
         order.order = -1;
         order.charLength = 1;
-        
-        int highbyte = buf[offset] & 0xFF;
+
+        int highbyte = buf.get(offset) & 0xFF;
         if ((highbyte >= HIGHBYTE_BEGIN_1 && highbyte <= HIGHBYTE_END_1) ||
             (highbyte >= HIGHBYTE_BEGIN_2 && highbyte <= HIGHBYTE_END_2)) {
             order.charLength = 2;
         }
-        
+
         if (highbyte == HIRAGANA_HIGHBYTE) {
-            int lowbyte = buf[offset+1] & 0xFF;
+            int lowbyte = buf.get(offset + 1) & 0xFF;
             if (lowbyte >= HIRAGANA_LOWBYTE_BEGIN &&
                 lowbyte <= HIRAGANA_LOWBYTE_END) {
                 order.order = (lowbyte - HIRAGANA_LOWBYTE_BEGIN);
@@ -78,16 +80,16 @@ public final class SJISContextAnalysis extends JapaneseContextAnalysis {
     }
 
     @Override
-	protected int getOrder(final byte[] buf, int offset) {
-        int highbyte = buf[offset] & 0xFF;
+    protected int getOrder(final ByteBuffer buf, int offset) {
+        int highbyte = buf.get(offset) & 0xFF;
         if (highbyte == HIRAGANA_HIGHBYTE) {
-            int lowbyte = buf[offset+1] & 0xFF;
+            int lowbyte = buf.get(offset + 1) & 0xFF;
             if (lowbyte >= HIRAGANA_LOWBYTE_BEGIN &&
                 lowbyte <= HIRAGANA_LOWBYTE_END) {
                 return (lowbyte - HIRAGANA_LOWBYTE_BEGIN);
             }
         }
-        
+
         return -1;
     }
 }

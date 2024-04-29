@@ -42,27 +42,29 @@ import org.glavo.chardet.prober.statemachine.CodingStateMachine;
 import org.glavo.chardet.prober.statemachine.SMModel;
 import org.glavo.chardet.prober.statemachine.UTF8SMModel;
 
-public class UTF8Prober extends CharsetProber {
+import java.nio.ByteBuffer;
+
+public final class UTF8Prober extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////
     public static final float ONE_CHAR_PROB = 0.50f;
-    
+
 
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private final CodingStateMachine    codingSM;
-    private ProbingState                state;
-    private int                         numOfMBChar;
-    
+    private final CodingStateMachine codingSM;
+    private ProbingState state;
+    private int numOfMBChar;
+
     private static final SMModel smModel = new UTF8SMModel();
-    
+
 
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public UTF8Prober() {
+    public UTF8Prober() {
         super();
         this.numOfMBChar = 0;
         this.codingSM = new CodingStateMachine(smModel);
@@ -70,16 +72,18 @@ public class UTF8Prober extends CharsetProber {
         reset();
     }
 
-	public DetectedCharset getCharset() {
+    @Override
+    public DetectedCharset getCharset() {
         return DetectedCharset.UTF_8;
     }
 
-	public ProbingState handleData(final byte[] buf, int offset, int length) {
+    @Override
+    public ProbingState handleData(final ByteBuffer buf, int offset, int length) {
         int codingState;
 
         int maxPos = offset + length;
-        for (int i=offset; i<maxPos; ++i) {
-            codingState = this.codingSM.nextState(buf[i]);
+        for (int i = offset; i < maxPos; ++i) {
+            codingState = this.codingSM.nextState(buf.get(i));
             if (codingState == SMModel.ERROR) {
                 this.state = ProbingState.NOT_ME;
                 break;
@@ -94,31 +98,34 @@ public class UTF8Prober extends CharsetProber {
                 }
             }
         }
-        
+
         if (this.state == ProbingState.DETECTING) {
             if (getConfidence() > SHORTCUT_THRESHOLD) {
                 this.state = ProbingState.FOUND_IT;
             }
         }
-        
+
         return this.state;
     }
 
-	public ProbingState getState() {
+    @Override
+    public ProbingState getState() {
         return this.state;
     }
 
-	public final void reset() {
+    @Override
+    public final void reset() {
         this.codingSM.reset();
         this.numOfMBChar = 0;
         this.state = ProbingState.DETECTING;
     }
 
-	public float getConfidence() {
+    @Override
+    public float getConfidence() {
         float unlike = 0.99f;
-        
+
         if (this.numOfMBChar < 6) {
-            for (int i=0; i<this.numOfMBChar; ++i) {
+            for (int i = 0; i < this.numOfMBChar; ++i) {
                 unlike *= ONE_CHAR_PROB;
             }
             return (1.0f - unlike);
@@ -127,6 +134,7 @@ public class UTF8Prober extends CharsetProber {
         }
     }
 
-    public void setOption()
-    {}
+    @Override
+    public void setOption() {
+    }
 }

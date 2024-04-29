@@ -39,6 +39,7 @@ package org.glavo.chardet.prober;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.glavo.chardet.DetectedCharset;
@@ -56,7 +57,7 @@ import org.glavo.chardet.prober.sequence.Win1251BulgarianModel;
 import org.glavo.chardet.prober.sequence.Win1251Model;
 import org.glavo.chardet.prober.sequence.Win1253Model;
 
-public class SBCSGroupProber extends CharsetProber {
+public final class SBCSGroupProber extends CharsetProber {
 	
 	private ProbingState state;
 	private final List<CharsetProber> probers = new ArrayList<>();
@@ -134,7 +135,7 @@ public class SBCSGroupProber extends CharsetProber {
 	}
 
 	@Override
-	public ProbingState handleData(byte[] buf, int offset, int length) {
+	public ProbingState handleData(ByteBuffer buf, int offset, int length) {
 		ProbingState st;
 
 		do {
@@ -146,7 +147,7 @@ public class SBCSGroupProber extends CharsetProber {
 				if (!prober.isActive()) {
 					continue;
 				}
-				st = prober.handleData(newbuf.array(), 0, newbuf.position());
+				st = prober.handleData(newbuf, 0, newbuf.position());
 				if (st == ProbingState.FOUND_IT || 0.99f == prober.getConfidence()) {
 					this.bestGuess = prober;
 					this.state = ProbingState.FOUND_IT;

@@ -41,7 +41,7 @@ package org.glavo.chardet.prober.sequence;
 
 import org.glavo.chardet.DetectedCharset;
 
-public class ThaiModel extends SequenceModel {
+public final class ThaiModel extends SequenceModel {
 
     // //////////////////////////////////////////////////////////////
     // constants

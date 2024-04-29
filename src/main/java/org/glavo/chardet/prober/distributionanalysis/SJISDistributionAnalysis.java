@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.distributionanalysis;
 
+import java.nio.ByteBuffer;
+
 public final class SJISDistributionAnalysis extends JISDistributionAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -57,10 +59,10 @@ public final class SJISDistributionAnalysis extends JISDistributionAnalysis {
     }
     
     @Override
-	protected int getOrder(final byte[] buf, int offset) {
-        int order = -1;
+	protected int getOrder(final ByteBuffer buf, int offset) {
+        int order;
         
-        int highbyte = buf[offset] & 0xFF;
+        int highbyte = buf.get(offset) & 0xFF;
         if (highbyte >= HIGHBYTE_BEGIN_1 && highbyte <= HIGHBYTE_END_1) {
             order = 188 * (highbyte - HIGHBYTE_BEGIN_1);
         } else if (highbyte >= HIGHBYTE_BEGIN_2 && highbyte <= HIGHBYTE_END_2) {
@@ -68,7 +70,7 @@ public final class SJISDistributionAnalysis extends JISDistributionAnalysis {
         } else {
             return -1;
         }
-        int lowbyte = buf[offset+1] & 0xFF;
+        int lowbyte = buf.get(offset + 1) & 0xFF;
         order += lowbyte - LOWBYTE_BEGIN_1;
         if (lowbyte >= LOWBYTE_BEGIN_2) {
             --order;

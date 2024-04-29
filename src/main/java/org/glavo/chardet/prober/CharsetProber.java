@@ -42,7 +42,6 @@ import org.glavo.chardet.DetectedCharset;
 
 import java.nio.ByteBuffer;
 
-
 public abstract class CharsetProber {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -74,25 +73,34 @@ public abstract class CharsetProber {
 	}
     
     public abstract DetectedCharset getCharset();
-    public abstract ProbingState handleData(final byte[] buf, int offset, int length);
+    public abstract ProbingState handleData(final ByteBuffer buf, int offset, int length);
     public abstract ProbingState getState();
     public abstract void reset();
     public abstract float getConfidence();
     public abstract void setOption();
 
+    private static void put(ByteBuffer output, ByteBuffer input, int sourceOffset, int sourceLength) {
+        if (input.hasArray()) {
+            output.put(input.array(), input.arrayOffset() + sourceOffset, sourceLength);
+        } else {
+            ByteBuffer duplicate = input.duplicate().limit(sourceOffset + sourceLength).position(sourceOffset);
+            output.put(duplicate);
+        }
+    }
+
     // ByteBuffer.position() indicates number of bytes written.
-	public ByteBuffer filterWithoutEnglishLetters(final byte[] buf, int offset, int length) {
+	public final ByteBuffer filterWithoutEnglishLetters(ByteBuffer buf, int offset, int length) {
         ByteBuffer out = ByteBuffer.allocate(length);
-        
+
         boolean meetMSB = false;
         byte c;
 
         int prevPtr = offset;
         int curPtr = offset;
         int maxPtr = offset + length;
-        
-        for (; curPtr<maxPtr; ++curPtr) {
-            c = buf[curPtr];
+
+        for (; curPtr < maxPtr; ++curPtr) {
+            c = buf.get(curPtr);
             if (!isAscii(c)) {
                 meetMSB = true;
             } else if (isAsciiSymbol(c)) {
@@ -101,8 +109,8 @@ public abstract class CharsetProber {
                 if (meetMSB && curPtr > prevPtr) {
                     // this segment contains more than single symbol,
                     // and it has upper ASCII, we need to keep it
-                    out.put(buf, prevPtr, (curPtr-prevPtr));
-                    out.put((byte)ASCII_SP);
+                    put(out, buf, prevPtr, curPtr - prevPtr);
+                    out.put((byte) ASCII_SP);
                     prevPtr = curPtr + 1;
                     meetMSB = false;
                 } else {
@@ -114,13 +122,13 @@ public abstract class CharsetProber {
         }
         
         if (meetMSB && curPtr > prevPtr) {
-            out.put(buf, prevPtr, (curPtr-prevPtr));
+            put(out, buf, prevPtr, curPtr - prevPtr);
         }
         
         return out;
     }
     
-	public ByteBuffer filterWithEnglishLetters(final byte[] buf, int offset, int length) {
+	public ByteBuffer filterWithEnglishLetters(final ByteBuffer buf, int offset, int length) {
         ByteBuffer out = ByteBuffer.allocate(length);
         
         boolean isInTag = false;
@@ -131,19 +139,19 @@ public abstract class CharsetProber {
         int maxPtr = offset + length;
         
         for (; curPtr < maxPtr; ++curPtr) {
-            c = buf[curPtr];
+            c = buf.get(curPtr);
             
             if (c == ASCII_GT) {
                 isInTag = false;
             } else if (c == ASCII_LT) {
                 isInTag = true;
             }
-            
+
             if (isAscii(c) && isAsciiSymbol(c)) {
                 if (curPtr > prevPtr && !isInTag) {
                     // Current segment contains more than just a symbol
                     // and it is not inside a tag, keep it.
-                    out.put(buf, prevPtr, (curPtr-prevPtr));
+                    put(out, buf, prevPtr, (curPtr-prevPtr));
                     out.put((byte)ASCII_SP);
                     prevPtr = curPtr + 1;
                 } else {
@@ -155,7 +163,7 @@ public abstract class CharsetProber {
         // If the current segment contains more than just a symbol 
         // and it is not inside a tag then keep it.
         if (!isInTag && curPtr > prevPtr) {
-            out.put(buf, prevPtr, (curPtr-prevPtr));
+            put(out, buf, prevPtr, curPtr - prevPtr);
         }
         
         return out;

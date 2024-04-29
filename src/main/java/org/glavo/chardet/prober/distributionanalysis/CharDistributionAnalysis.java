@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.distributionanalysis;
 
+import java.nio.ByteBuffer;
+
 public abstract class CharDistributionAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -63,10 +65,10 @@ public abstract class CharDistributionAnalysis {
         reset();
     }
     
-	public void handleData(final byte[] buf, int offset, int length) {
+	public void handleData(final ByteBuffer buf, int offset, int length) {
 	}
     
-	public void handleOneChar(final byte[] buf, int offset, int charLength) {
+	public void handleOneChar(final ByteBuffer buf, int offset, int charLength) {
         int order = -1;
         
         if (charLength == 2) {
@@ -111,5 +113,5 @@ public abstract class CharDistributionAnalysis {
         return (this.totalChars > ENOUGH_DATA_THRESHOLD);
     }
     
-    protected abstract int getOrder(final byte[] buf, int offset);
+    protected abstract int getOrder(final ByteBuffer buf, int offset);
 }

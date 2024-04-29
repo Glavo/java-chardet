@@ -47,6 +47,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -160,9 +161,9 @@ public final class UniversalDetector {
                 }
             }
         } // if (start) end
-        
+
         int maxPos = offset + length;
-        for (int i=offset; i<maxPos; ++i) {
+        for (int i = offset; i < maxPos; ++i) {
             int c = buf[i] & 0xFF;
             if ((c & 0x80) != 0 && c != 0xA0) {
                 if (this.inputState != InputState.HIGHBYTE) {
@@ -203,14 +204,15 @@ public final class UniversalDetector {
             if (this.escCharsetProber == null) {
                 this.escCharsetProber = new EscCharsetProber();
             }
-            st = this.escCharsetProber.handleData(buf, offset, length);
+            st = this.escCharsetProber.handleData(ByteBuffer.wrap(buf), offset, length);
             if (st == CharsetProber.ProbingState.FOUND_IT || 0.99f == this.escCharsetProber.getConfidence()) {
                 this.done = true;
                 this.detectedCharset = this.escCharsetProber.getCharset();
             }
         } else if (this.inputState == InputState.HIGHBYTE) {
+            ByteBuffer wrapper = ByteBuffer.wrap(buf);
             for (CharsetProber prober : this.probers) {
-                st = prober.handleData(buf, offset, length);
+                st = prober.handleData(wrapper, offset, length);
                 if (st == CharsetProber.ProbingState.FOUND_IT) {
                     this.done = true;
                     this.detectedCharset = prober.getCharset();
@@ -286,8 +288,8 @@ public final class UniversalDetector {
             float proberConfidence;
             float maxProberConfidence = 0.0f;
             int maxProber = 0;
-            
-            for (int i=0; i<this.probers.length; ++i) {
+
+            for (int i = 0; i < this.probers.length; ++i) {
                 proberConfidence = this.probers[i].getConfidence();
                 if (proberConfidence > maxProberConfidence) {
                     maxProberConfidence = proberConfidence;

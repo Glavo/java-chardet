@@ -44,53 +44,55 @@ import org.glavo.chardet.prober.statemachine.CodingStateMachine;
 import org.glavo.chardet.prober.statemachine.EUCTWSMModel;
 import org.glavo.chardet.prober.statemachine.SMModel;
 
-public class EUCTWProber extends CharsetProber {
+import java.nio.ByteBuffer;
+
+public final class EUCTWProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private final CodingStateMachine            codingSM;
-    private ProbingState                        state;
-    
-    private final EUCTWDistributionAnalysis     distributionAnalyzer;
-    
-    private final byte[]                        lastChar;
+    private final CodingStateMachine codingSM;
+    private ProbingState state;
+
+    private final EUCTWDistributionAnalysis distributionAnalyzer;
+
+    private final ByteBuffer lastChar;
 
     private static final SMModel smModel = new EUCTWSMModel();
 
-    
+
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public EUCTWProber() {
+    public EUCTWProber() {
         super();
         this.codingSM = new CodingStateMachine(smModel);
         this.distributionAnalyzer = new EUCTWDistributionAnalysis();
-        this.lastChar = new byte[2];
+        this.lastChar = ByteBuffer.allocate(2);
         reset();
     }
-    
+
     @Override
-	public DetectedCharset getCharset() {
+    public DetectedCharset getCharset() {
         return DetectedCharset.EUC_TW;
     }
 
     @Override
-	public float getConfidence() {
+    public float getConfidence() {
         return this.distributionAnalyzer.getConfidence();
     }
 
     @Override
-	public ProbingState getState() {
+    public ProbingState getState() {
         return this.state;
     }
 
     @Override
-	public ProbingState handleData(byte[] buf, int offset, int length) {
+    public ProbingState handleData(ByteBuffer buf, int offset, int length) {
         int codingState;
-        
+
         int maxPos = offset + length;
-        for (int i=offset; i<maxPos; ++i) {
-            codingState = this.codingSM.nextState(buf[i]);
+        for (int i = offset; i < maxPos; ++i) {
+            codingState = this.codingSM.nextState(buf.get(i));
             if (codingState == SMModel.ERROR) {
                 this.state = ProbingState.NOT_ME;
                 break;
@@ -102,34 +104,34 @@ public class EUCTWProber extends CharsetProber {
             if (codingState == SMModel.START) {
                 int charLen = this.codingSM.getCurrentCharLen();
                 if (i == offset) {
-                    this.lastChar[1] = buf[offset];
+                    this.lastChar.put(1, buf.get(offset));
                     this.distributionAnalyzer.handleOneChar(this.lastChar, 0, charLen);
                 } else {
-                    this.distributionAnalyzer.handleOneChar(buf, i-1, charLen);
+                    this.distributionAnalyzer.handleOneChar(buf, i - 1, charLen);
                 }
             }
         }
-        
-        this.lastChar[0] = buf[maxPos-1];
-        
+
+        this.lastChar.put(0, buf.get(maxPos - 1));
+
         if (this.state == ProbingState.DETECTING) {
             if (this.distributionAnalyzer.gotEnoughData() && getConfidence() > SHORTCUT_THRESHOLD) {
                 this.state = ProbingState.FOUND_IT;
             }
         }
-        
+
         return this.state;
     }
 
     @Override
-	public final void reset() {
-		this.codingSM.reset();
-		this.state = ProbingState.DETECTING;
-		this.distributionAnalyzer.reset();
-		java.util.Arrays.fill(this.lastChar, (byte) 0);
-	}
+    public final void reset() {
+        this.codingSM.reset();
+        this.state = ProbingState.DETECTING;
+        this.distributionAnalyzer.reset();
+        java.util.Arrays.fill(this.lastChar.array(), (byte) 0);
+    }
 
     @Override
-    public void setOption()
-    {}
+    public void setOption() {
+    }
 }

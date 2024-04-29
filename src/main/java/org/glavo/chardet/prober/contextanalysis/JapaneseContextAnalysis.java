@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.contextanalysis;
 
+import java.nio.ByteBuffer;
+
 public abstract class JapaneseContextAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -83,7 +85,7 @@ public abstract class JapaneseContextAnalysis {
         reset();
     }
     
-	public void handleData(final byte[] buf, int offset, int length) {
+	public void handleData(final ByteBuffer buf, int offset, int length) {
         if (this.done) {
             return;
         }
@@ -116,7 +118,7 @@ public abstract class JapaneseContextAnalysis {
         }
     }
     
-	public void handleOneChar(final byte[] buf, int offset, int charLength) {
+	public void handleOneChar(final ByteBuffer buf, int offset, int charLength) {
         if (this.totalRel > MAX_REL_THRESHOLD) {
             this.done = true;
         }
@@ -146,7 +148,7 @@ public abstract class JapaneseContextAnalysis {
     
 	public final void reset() {
         this.totalRel = 0;
-        for (int i=0; i<NUM_OF_CATEGORY; ++i) {
+        for (int i = 0; i < NUM_OF_CATEGORY; ++i) {
             this.relSample[i] = 0;
         }
         this.needToSkipCharNum = 0;
@@ -154,15 +156,14 @@ public abstract class JapaneseContextAnalysis {
         this.done = false;
     }
     
-    public void setOption()
-    {}
+    public void setOption() {}
     
 	public boolean gotEnoughData() {
         return (this.totalRel > ENOUGH_REL_THRESHOLD);
     }
     
-    protected abstract void getOrder(Order order, final byte[] buf, int offset);
-    protected abstract int getOrder(final byte[] buf, int offset);
+    protected abstract void getOrder(Order order, final ByteBuffer buf, int offset);
+    protected abstract int getOrder(final ByteBuffer buf, int offset);
 
     ////////////////////////////////////////////////////////////////
     // constants continued

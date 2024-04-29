@@ -37,6 +37,8 @@
 
 package org.glavo.chardet.prober.distributionanalysis;
 
+import java.nio.ByteBuffer;
+
 public final class EUCTWDistributionAnalysis extends CharDistributionAnalysis {
     ////////////////////////////////////////////////////////////////
     // constants
@@ -58,10 +60,10 @@ public final class EUCTWDistributionAnalysis extends CharDistributionAnalysis {
     }
 
     @Override
-	protected int getOrder(final byte[] buf, int offset) {
-        int highbyte = buf[offset] & 0xFF;
+    protected int getOrder(final ByteBuffer buf, int offset) {
+        int highbyte = buf.get(offset) & 0xFF;
         if (highbyte >= HIGHBYTE_BEGIN) {
-            int lowbyte = buf[offset+1] & 0xFF;
+            int lowbyte = buf.get(offset + 1) & 0xFF;
             return (94 * (highbyte - HIGHBYTE_BEGIN) + lowbyte - LOWBYTE_BEGIN);
         } else {
             return -1;

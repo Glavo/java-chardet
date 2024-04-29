@@ -41,8 +41,9 @@ package org.glavo.chardet.prober;
 import org.glavo.chardet.DetectedCharset;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
-public class Latin1Prober extends CharsetProber {
+public final class Latin1Prober extends CharsetProber {
     public static final byte UDF = 0;
     public static final byte OTH = 1;
     public static final byte ASC = 2;
@@ -157,7 +158,7 @@ public class Latin1Prober extends CharsetProber {
 	}
 
 	@Override
-	public ProbingState handleData(byte[] buf, int offset, int length) {
+	public ProbingState handleData(ByteBuffer buf, int offset, int length) {
 		ByteBuffer newBufTmp = filterWithEnglishLetters(buf, offset, length);
 
 		byte charClass;
@@ -182,18 +183,13 @@ public class Latin1Prober extends CharsetProber {
 	}
 
 	@Override
-	public final void reset() {
+	public void reset() {
 		this.state = ProbingState.DETECTING;
 		this.lastCharClass = OTH;
-		for (int i = 0; i < this.freqCounter.length; ++i) {
-			this.freqCounter[i] = 0;
-		}
+        Arrays.fill(this.freqCounter, 0);
 	}
 
 	@Override
 	public void setOption() {
 	}
-
-    
-
 }

@@ -39,7 +39,9 @@ package org.glavo.chardet.prober;
 
 import org.glavo.chardet.DetectedCharset;
 
-public class HebrewProber extends CharsetProber {
+import java.nio.ByteBuffer;
+
+public final class HebrewProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
@@ -133,15 +135,15 @@ public class HebrewProber extends CharsetProber {
     }
 
     @Override
-	public ProbingState handleData(byte[] buf, int offset, int length) {
+	public ProbingState handleData(ByteBuffer buf, int offset, int length) {
         if (getState() == ProbingState.NOT_ME) {
             return ProbingState.NOT_ME;
         }
-        
-        byte c;
+
+
         int maxPos = offset + length;
-        for (int i=offset; i<maxPos; ++i) {
-            c = buf[i];
+        for (int i = offset; i < maxPos; ++i) {
+            byte c = buf.get(i);
             if (c == SPACE) {
                 if (this.beforePrev != SPACE) {
                     if (isFinal(this.prev)) {
@@ -165,7 +167,7 @@ public class HebrewProber extends CharsetProber {
     }
 
     @Override
-	public final void reset() {
+	public void reset() {
         this.finalCharLogicalScore = 0;
         this.finalCharVisualScore = 0;
         
@@ -179,7 +181,7 @@ public class HebrewProber extends CharsetProber {
 	public void setOption() {
 	}
 
-	protected static boolean isFinal(byte b) {
+	private static boolean isFinal(byte b) {
         int c = b & 0xFF;
         return (
                 c == FINAL_KAF ||
@@ -190,7 +192,7 @@ public class HebrewProber extends CharsetProber {
                 );
     }
     
-	protected static boolean isNonFinal(byte b) {
+	private static boolean isNonFinal(byte b) {
         int c = b & 0xFF;
         return (
                 c == NORMAL_KAF ||

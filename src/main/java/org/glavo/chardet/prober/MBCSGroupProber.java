@@ -40,6 +40,7 @@ package org.glavo.chardet.prober;
 
 import org.glavo.chardet.DetectedCharset;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,42 +48,42 @@ public class MBCSGroupProber extends CharsetProber {
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private ProbingState                state;
-    private final List<CharsetProber>   probers = new ArrayList<>();
-    private CharsetProber               bestGuess;
-    private int                         activeNum;
+    private ProbingState state;
+    private final List<CharsetProber> probers = new ArrayList<>();
+    private CharsetProber bestGuess;
+    private int activeNum;
 
 
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-	public MBCSGroupProber() {
-		super();
+    public MBCSGroupProber() {
+        super();
 
-		probers.add(new GB18030Prober());
-		probers.add(new UTF8Prober());
-		probers.add(new Big5Prober());
-		probers.add(new SJISProber());
-		probers.add(new EUCJPProber());
-		probers.add(new EUCKRProber());
-		probers.add(new EUCTWProber());
+        probers.add(new GB18030Prober());
+        probers.add(new UTF8Prober());
+        probers.add(new Big5Prober());
+        probers.add(new SJISProber());
+        probers.add(new EUCJPProber());
+        probers.add(new EUCKRProber());
+        probers.add(new EUCTWProber());
 
-		reset();
-	}
-
-    @Override
-	public DetectedCharset getCharset() {
-		if (this.bestGuess == null) {
-			getConfidence();
-			if (this.bestGuess == null) {
-				this.bestGuess = probers.get(0);
-			}
-		}
-		return this.bestGuess.getCharset();
-	}
+        reset();
+    }
 
     @Override
-	public float getConfidence() {
+    public DetectedCharset getCharset() {
+        if (this.bestGuess == null) {
+            getConfidence();
+            if (this.bestGuess == null) {
+                this.bestGuess = probers.get(0);
+            }
+        }
+        return this.bestGuess.getCharset();
+    }
+
+    @Override
+    public float getConfidence() {
         float bestConf = 0.0f;
         float cf;
 
@@ -91,54 +92,54 @@ public class MBCSGroupProber extends CharsetProber {
         } else if (this.state == ProbingState.NOT_ME) {
             return 0.01f;
         } else {
-        	for(CharsetProber prober: probers) {
-        		if (!prober.isActive()) {
-        			continue;
-        		}
-        		cf = prober.getConfidence();
+            for (CharsetProber prober : probers) {
+                if (!prober.isActive()) {
+                    continue;
+                }
+                cf = prober.getConfidence();
                 if (bestConf < cf) {
                     bestConf = cf;
                     this.bestGuess = prober;
                 }
-        	}
+            }
         }
 
         return bestConf;
     }
 
     @Override
-	public ProbingState getState() {
+    public ProbingState getState() {
         return this.state;
     }
 
     @Override
-	public ProbingState handleData(byte[] buf, int offset, int length) {
+    public ProbingState handleData(ByteBuffer buf, int offset, int length) {
         ProbingState st;
-        
+
         boolean keepNext = true;
-        byte[] highbyteBuf = new byte[length];
+        ByteBuffer highbyteBuf = ByteBuffer.allocate(length);
         int highpos = 0;
 
         int maxPos = offset + length;
-        for (int i=offset; i<maxPos; ++i) {
-            if ((buf[i] & 0x80) != 0) {
-                highbyteBuf[highpos++] = buf[i];
+        for (int i = offset; i < maxPos; ++i) {
+            if ((buf.get(i) & 0x80) != 0) {
+                highbyteBuf.put(highpos++, buf.get(i));
                 keepNext = true;
             } else {
                 //if previous is highbyte, keep this even it is a ASCII
                 if (keepNext) {
-                    highbyteBuf[highpos++] = buf[i];
+                    highbyteBuf.put(highpos++, buf.get(i));
                     keepNext = false;
                 }
             }
         }
-        
-        for(CharsetProber prober: this.probers) {
-        	if (!prober.isActive()) {
-        		continue;
-        	}
-        	st = prober.handleData(highbyteBuf, 0, highpos);
-        	if (st == ProbingState.FOUND_IT || 0.99f == prober.getConfidence()) {
+
+        for (CharsetProber prober : this.probers) {
+            if (!prober.isActive()) {
+                continue;
+            }
+            st = prober.handleData(highbyteBuf, 0, highpos);
+            if (st == ProbingState.FOUND_IT || 0.99f == prober.getConfidence()) {
                 this.bestGuess = prober;
                 this.state = ProbingState.FOUND_IT;
                 break;
@@ -151,14 +152,14 @@ public class MBCSGroupProber extends CharsetProber {
                 }
             }
         }
-        
+
         return this.state;
     }
 
     @Override
-	public final void reset() {
+    public final void reset() {
         this.activeNum = 0;
-        for (CharsetProber prober: this.probers) {
+        for (CharsetProber prober : this.probers) {
             prober.reset();
             prober.setActive(true);
             this.activeNum++;
@@ -168,6 +169,6 @@ public class MBCSGroupProber extends CharsetProber {
     }
 
     @Override
-    public void setOption()
-    {}
+    public void setOption() {
+    }
 }
