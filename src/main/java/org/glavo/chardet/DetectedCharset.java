@@ -48,7 +48,6 @@ public final class DetectedCharset {
     public static final DetectedCharset ISO_8859_7 = new DetectedCharset("ISO-8859-7");
     public static final DetectedCharset ISO_8859_8 = new DetectedCharset("ISO-8859-8");
     public static final DetectedCharset BIG5 = new DetectedCharset("BIG5");
-    public static final DetectedCharset GBK = new DetectedCharset("GBK");
     public static final DetectedCharset GB18030 = new DetectedCharset("GB18030");
     public static final DetectedCharset EUC_JP = new DetectedCharset("EUC-JP");
     public static final DetectedCharset EUC_KR = new DetectedCharset("EUC-KR");
