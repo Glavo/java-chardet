@@ -43,11 +43,12 @@
 
 package org.glavo.chardet;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -68,26 +69,26 @@ public final class UniversalDetector {
     ////////////////////////////////////////////////////////////////
     // inner types
     ////////////////////////////////////////////////////////////////
-	public enum InputState {
-		PURE_ASCII, ESC_ASCII, HIGHBYTE
-	}
+    public enum InputState {
+        PURE_ASCII, ESC_ASCII, HIGHBYTE
+    }
 
 
     ////////////////////////////////////////////////////////////////
     // fields
     ////////////////////////////////////////////////////////////////
-    private InputState                  inputState;
-    private boolean                     done;
-    private boolean                     start;
-    private boolean                     gotData;
-    private boolean                     onlyPrintableASCII = true;
-    private byte                        lastChar;
-    private DetectedCharset             detectedCharset;
+    private InputState inputState;
+    private boolean done;
+    private boolean start;
+    private boolean gotData;
+    private boolean onlyPrintableASCII = true;
+    private byte lastChar;
+    private DetectedCharset detectedCharset;
 
-    private final CharsetProber[]       probers;
-    private CharsetProber               escCharsetProber;
+    private final CharsetProber[] probers;
+    private CharsetProber escCharsetProber;
 
-    private CharsetListener             listener;
+    private CharsetListener listener;
 
 
     ////////////////////////////////////////////////////////////////
@@ -95,13 +96,14 @@ public final class UniversalDetector {
     ////////////////////////////////////////////////////////////////
 
     public UniversalDetector() {
-    	this(null);
+        this(null);
     }
+
     /**
      * @param listener a listener object that is notified of
-     *         the detected encocoding. Can be null.
+     *                 the detected encocoding. Can be null.
      */
-	public UniversalDetector(CharsetListener listener) {
+    public UniversalDetector(CharsetListener listener) {
         this.listener = listener;
         this.escCharsetProber = null;
         this.probers = new CharsetProber[3];
@@ -115,13 +117,13 @@ public final class UniversalDetector {
 
     /**
      * @return The detected encoding is returned. If the detector couldn't
-     *          determine what encoding was used, null is returned.
+     * determine what encoding was used, null is returned.
      */
-    public DetectedCharset getDetectedCharset()  {
+    public DetectedCharset getDetectedCharset() {
         return this.detectedCharset;
     }
 
-    public void setListener(CharsetListener listener)  {
+    public void setListener(CharsetListener listener) {
         this.listener = listener;
     }
 
@@ -132,10 +134,10 @@ public final class UniversalDetector {
     /**
      * Feed the detector with more data.
      *
-     * @param buf    Buffer with the data
+     * @param buf Buffer with the data
      */
     public void handleData(byte[] buf) {
-    	handleData(buf, 0, buf.length);
+        handleData(buf, 0, buf.length);
     }
 
     /**
@@ -145,7 +147,7 @@ public final class UniversalDetector {
      * @param offset initial position of data in buf
      * @param length length of data
      */
-	public void handleData(byte[] buf, int offset, int length) {
+    public void handleData(byte[] buf, int offset, int length) {
         handleData(ByteBuffer.wrap(buf), offset, length);
     }
 
@@ -154,7 +156,7 @@ public final class UniversalDetector {
      * <p>
      * This method only reads the <code>buf</code> and does not change its position.
      *
-     * @param buf    Buffer with the data
+     * @param buf Buffer with the data
      */
     public void handleData(ByteBuffer buf) {
         handleData(buf, buf.position(), buf.remaining());
@@ -221,7 +223,7 @@ public final class UniversalDetector {
                             (c >= 0x20 && c <= 0x7e) // Printable characters
                             || c == 0x0A  // New Line
                             || c == 0x0D  // Carriage return
-                            || c== 0x09;  // TAB
+                            || c == 0x09;  // TAB
                 }
                 this.lastChar = buf.get(i);
             }
@@ -252,11 +254,11 @@ public final class UniversalDetector {
     }
 
     public static DetectedCharset detectCharsetFromBOM(final byte[] buf) {
-    	return detectCharsetFromBOM(ByteBuffer.wrap(buf), 0);
+        return detectCharsetFromBOM(ByteBuffer.wrap(buf), 0);
     }
 
-	private static DetectedCharset detectCharsetFromBOM(final ByteBuffer buf, int offset) {
-		if (buf.limit() > offset + 3) {
+    private static DetectedCharset detectCharsetFromBOM(final ByteBuffer buf, int offset) {
+        if (buf.limit() > offset + 3) {
             int b1 = buf.get(offset) & 0xFF;
             int b2 = buf.get(offset + 1) & 0xFF;
             int b3 = buf.get(offset + 2) & 0xFF;
@@ -294,11 +296,12 @@ public final class UniversalDetector {
             } // swich end
         }
         return null;
-	}
+    }
+
     /**
      * Marks end of data reading. Finish calculations.
      */
-	public void dataEnd() {
+    public void dataEnd() {
         if (!this.gotData) {
             return;
         }
@@ -333,7 +336,7 @@ public final class UniversalDetector {
         } else if (this.inputState == InputState.ESC_ASCII) {
             // do nothing
         } else if (this.inputState == InputState.PURE_ASCII && this.onlyPrintableASCII) {
-        	this.detectedCharset = DetectedCharset.US_ASCII;
+            this.detectedCharset = DetectedCharset.US_ASCII;
         } else {
             // do nothing
         }
@@ -342,7 +345,7 @@ public final class UniversalDetector {
     /**
      * Resets detector to be used again.
      */
-	public void reset() {
+    public void reset() {
         this.done = false;
         this.start = true;
         this.detectedCharset = null;
@@ -380,8 +383,8 @@ public final class UniversalDetector {
      * @throws IOException if some IO error occurs
      */
     public static DetectedCharset detectCharset(Path path) throws IOException {
-        try (InputStream fis = new BufferedInputStream(Files.newInputStream(path))) {
-            return detectCharset(fis);
+        try (ReadableByteChannel channel = Files.newByteChannel(path)) {
+            return detectCharset(channel);
         }
     }
 
@@ -393,16 +396,27 @@ public final class UniversalDetector {
      * @throws IOException if some IO error occurs
      */
     public static DetectedCharset detectCharset(InputStream inputStream) throws IOException {
-        byte[] buf = new byte[4096];
+        return detectCharset(Channels.newChannel(inputStream));
+    }
 
+    /**
+     * Gets the charset of content from InputStream.
+     *
+     * @param channel ReadableByteChannel containing text file
+     * @return The charset of the file, null if it cannot be determined
+     * @throws IOException if some IO error occurs
+     */
+    public static DetectedCharset detectCharset(ReadableByteChannel channel) throws IOException {
         UniversalDetector detector = new UniversalDetector(null);
 
-        int nread;
-        while ((nread = inputStream.read(buf)) > 0 && !detector.isDone()) {
-            detector.handleData(buf, 0, nread);
+        ByteBuffer buffer = ByteBuffer.allocate(4096);
+        while (!detector.isDone() && channel.read(buffer) > 0) {
+            buffer.flip();
+            detector.handleData(buffer);
+            buffer.clear();
         }
-        detector.dataEnd();
 
+        detector.dataEnd();
         DetectedCharset encoding = detector.getDetectedCharset();
         detector.reset();
         return encoding;
