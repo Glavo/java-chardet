@@ -87,15 +87,7 @@ public final class DetectedCharset {
         return name;
     }
 
-    public Charset getCharset() throws UnsupportedCharsetException {
-        Charset charset = getCharsetOrNull();
-        if (charset == null) {
-            throw new UnsupportedCharsetException(name);
-        }
-        return charset;
-    }
-
-    public Charset getCharsetOrNull() {
+    private void initCharset() {
         if (needInit) {
             try {
                 charset = Charset.forName(name);
@@ -104,11 +96,19 @@ public final class DetectedCharset {
 
             needInit = false;
         }
+    }
+
+    public Charset getCharset() throws UnsupportedCharsetException {
+        initCharset();
+        if (charset == null) {
+            throw new UnsupportedCharsetException(name);
+        }
         return charset;
     }
 
     public boolean isSupported() {
-        return getCharsetOrNull() != null;
+        initCharset();
+        return charset != null;
     }
 
     @Override
