@@ -40,6 +40,7 @@ package org.glavo.chardet.prober;
 
 import org.glavo.chardet.DetectedCharset;
 
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
 public abstract class CharsetProber {
@@ -79,11 +80,13 @@ public abstract class CharsetProber {
     public abstract float getConfidence();
     public abstract void setOption();
 
-    private static void put(ByteBuffer output, ByteBuffer input, int sourceOffset, int sourceLength) {
+    private static void put(ByteBuffer output, ByteBuffer input, int inputOffset, int inputLength) {
         if (input.hasArray()) {
-            output.put(input.array(), input.arrayOffset() + sourceOffset, sourceLength);
+            output.put(input.array(), input.arrayOffset() + inputOffset, inputLength);
         } else {
-            ByteBuffer duplicate = input.duplicate().limit(sourceOffset + sourceLength).position(sourceOffset);
+            ByteBuffer duplicate = input.duplicate();
+            ((Buffer) duplicate).limit(inputOffset + inputLength);
+            ((Buffer) duplicate).position(inputOffset);
             output.put(duplicate);
         }
     }

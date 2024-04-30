@@ -1,9 +1,10 @@
 plugins {
     id("java")
+    id("org.glavo.compile-module-info-plugin") version "2.0"
 }
 
 group = "org.glavo"
-version = "1.0-SNAPSHOT"
+version = "1.0--SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -15,7 +16,7 @@ dependencies {
 }
 
 tasks.compileJava {
-    options.release.set(9)
+    options.release.set(8)
 }
 
 tasks.withType<JavaCompile> {
@@ -27,4 +28,8 @@ tasks.test {
     testLogging {
         showStandardStreams = true
     }
+}
+
+tasks.compileModuleInfo {
+    moduleVersion = project.version.toString()
 }
