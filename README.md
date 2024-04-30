@@ -1,7 +1,6 @@
 # Chardet
 
-[![Latest release](https://img.shields.io/maven-central/v/org.glavo/classfile)](https://github.com/Glavo/java-chardet/releases/latest)
-
+[![Latest release](https://img.shields.io/maven-central/v/org.glavo/chardet)](https://github.com/Glavo/java-chardet/releases/latest)
 
 This library is a fork of [albfernandez/juniversalchardet](https://github.com/albfernandez/juniversalchardet),
 based on commit [ff74981](https://github.com/albfernandez/juniversalchardet/commit/ff7498139012dfc82e2b6c0a8eb257a9c1fd657f).
