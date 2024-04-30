@@ -63,7 +63,7 @@ public final class UniversalDetector {
     ////////////////////////////////////////////////////////////////
     public static final float SHORTCUT_THRESHOLD = 0.95f;
     public static final float MINIMUM_THRESHOLD = 0.20f;
-    
+
 
     ////////////////////////////////////////////////////////////////
     // inner types
@@ -71,7 +71,7 @@ public final class UniversalDetector {
 	public enum InputState {
 		PURE_ASCII, ESC_ASCII, HIGHBYTE
 	}
-    
+
 
     ////////////////////////////////////////////////////////////////
     // fields
@@ -86,14 +86,14 @@ public final class UniversalDetector {
 
     private final CharsetProber[]       probers;
     private CharsetProber               escCharsetProber;
-    
+
     private CharsetListener             listener;
 
-    
+
     ////////////////////////////////////////////////////////////////
     // methods
     ////////////////////////////////////////////////////////////////
-    
+
     public UniversalDetector() {
     	this(null);
     }
@@ -105,14 +105,14 @@ public final class UniversalDetector {
         this.listener = listener;
         this.escCharsetProber = null;
         this.probers = new CharsetProber[3];
-        
+
         reset();
     }
-    
+
     public boolean isDone() {
         return this.done;
     }
-    
+
     /**
      * @return The detected encoding is returned. If the detector couldn't
      *          determine what encoding was used, null is returned.
@@ -120,42 +120,70 @@ public final class UniversalDetector {
     public DetectedCharset getDetectedCharset()  {
         return this.detectedCharset;
     }
-    
+
     public void setListener(CharsetListener listener)  {
         this.listener = listener;
     }
-    
+
     public CharsetListener getListener() {
         return this.listener;
     }
+
     /**
-     * Feed the detector with more data
-     * @param buf The buffer containing the data
+     * Feed the detector with more data.
+     *
+     * @param buf    Buffer with the data
      */
-    public void handleData(final byte[] buf) {
+    public void handleData(byte[] buf) {
     	handleData(buf, 0, buf.length);
     }
+
     /**
-     * Feed the detector with more data
-     * @param buf Buffer with the data
+     * Feed the detector with more data.
+     *
+     * @param buf    Buffer with the data
      * @param offset initial position of data in buf
      * @param length length of data
      */
-	public void handleData(final byte[] buf, int offset, int length) {
+	public void handleData(byte[] buf, int offset, int length) {
+        handleData(ByteBuffer.wrap(buf), offset, length);
+    }
+
+    /**
+     * Feed the detector with more data.
+     * <p>
+     * This method only reads the <code>buf</code> and does not change its position.
+     *
+     * @param buf    Buffer with the data
+     */
+    public void handleData(ByteBuffer buf) {
+        handleData(buf, buf.position(), buf.remaining());
+    }
+
+    /**
+     * Feed the detector with more data.
+     * <p>
+     * This method only reads the <code>buf</code> and does not change its position.
+     *
+     * @param buf    Buffer with the data
+     * @param offset initial position of data in buf
+     * @param length length of data
+     */
+    public void handleData(ByteBuffer buf, int offset, int length) {
         if (this.done) {
             return;
         }
-        
+
         if (length > 0) {
             this.gotData = true;
         }
-        
+
         if (this.start) {
             this.start = false;
             if (length > 3) {
                 DetectedCharset detectedBOM = detectCharsetFromBOM(buf, offset);
                 if (detectedBOM != null) {
-                	this.detectedCharset = detectedBOM;
+                    this.detectedCharset = detectedBOM;
                     this.done = true;
                     return;
                 }
@@ -164,15 +192,15 @@ public final class UniversalDetector {
 
         int maxPos = offset + length;
         for (int i = offset; i < maxPos; ++i) {
-            int c = buf[i] & 0xFF;
+            int c = buf.get(i) & 0xFF;
             if ((c & 0x80) != 0 && c != 0xA0) {
                 if (this.inputState != InputState.HIGHBYTE) {
                     this.inputState = InputState.HIGHBYTE;
-                    
+
                     if (this.escCharsetProber != null) {
                         this.escCharsetProber = null;
                     }
-                    
+
                     if (this.probers[0] == null) {
                         this.probers[0] = new MBCSGroupProber();
                     }
@@ -189,30 +217,29 @@ public final class UniversalDetector {
                     this.inputState = InputState.ESC_ASCII;
                 }
                 if (this.inputState == InputState.PURE_ASCII && onlyPrintableASCII) {
-                	onlyPrintableASCII =
-                			(c >= 0x20 && c <= 0x7e) // Printable characters 
-                			|| c == 0x0A  // New Line
-                			|| c == 0x0D  // Carriage return 
-                			|| c== 0x09;  // TAB
+                    onlyPrintableASCII =
+                            (c >= 0x20 && c <= 0x7e) // Printable characters
+                            || c == 0x0A  // New Line
+                            || c == 0x0D  // Carriage return
+                            || c== 0x09;  // TAB
                 }
-                this.lastChar = buf[i];
+                this.lastChar = buf.get(i);
             }
         } // for end
-        
+
         CharsetProber.ProbingState st;
         if (this.inputState == InputState.ESC_ASCII) {
             if (this.escCharsetProber == null) {
                 this.escCharsetProber = new EscCharsetProber();
             }
-            st = this.escCharsetProber.handleData(ByteBuffer.wrap(buf), offset, length);
+            st = this.escCharsetProber.handleData(buf, offset, length);
             if (st == CharsetProber.ProbingState.FOUND_IT || 0.99f == this.escCharsetProber.getConfidence()) {
                 this.done = true;
                 this.detectedCharset = this.escCharsetProber.getCharset();
             }
         } else if (this.inputState == InputState.HIGHBYTE) {
-            ByteBuffer wrapper = ByteBuffer.wrap(buf);
             for (CharsetProber prober : this.probers) {
-                st = prober.handleData(wrapper, offset, length);
+                st = prober.handleData(buf, offset, length);
                 if (st == CharsetProber.ProbingState.FOUND_IT) {
                     this.done = true;
                     this.detectedCharset = prober.getCharset();
@@ -223,50 +250,50 @@ public final class UniversalDetector {
             // do nothing
         }
     }
-    
+
     public static DetectedCharset detectCharsetFromBOM(final byte[] buf) {
-    	return detectCharsetFromBOM(buf, 0);
+    	return detectCharsetFromBOM(ByteBuffer.wrap(buf), 0);
     }
-    
-	private static DetectedCharset detectCharsetFromBOM(final byte[] buf, int offset) {
-		if (buf.length > (offset + 3)) {
-			int b1 = buf[offset] & 0xFF;
-			int b2 = buf[offset+1] & 0xFF;
-			int b3 = buf[offset+2] & 0xFF;
-			int b4 = buf[offset+3] & 0xFF;
-			
-			switch (b1) {
-			case 0xEF:
-			    if (b2 == 0xBB && b3 == 0xBF) {
-			        return DetectedCharset.UTF_8;
-			    }
-			    break;
-			case 0xFE:
-			    if (b2 == 0xFF && b3 == 0x00 && b4 == 0x00) {
-			        return DetectedCharset.X_ISO_10646_UCS_4_3412;
-			    } else if (b2 == 0xFF) {
-			        return DetectedCharset.UTF_16BE;
-			    }
-			    break;
-			case 0x00:
-			    if (b2 == 0x00 && b3 == 0xFE && b4 == 0xFF) {
-			        return DetectedCharset.UTF_32BE;
-			    } else if (b2 == 0x00 && b3 == 0xFF && b4 == 0xFE) {
-			        return DetectedCharset.X_ISO_10646_UCS_4_2143;
-			    }
-			    break;
-			case 0xFF:
-			    if (b2 == 0xFE && b3 == 0x00 && b4 == 0x00) {
-			        return DetectedCharset.UTF_32LE;
-			    } else if (b2 == 0xFE) {
-			        return DetectedCharset.UTF_16LE;
-			    }
-			    break;
-			default: 
-				break;
-			} // swich end
-		}
-		return null;
+
+	private static DetectedCharset detectCharsetFromBOM(final ByteBuffer buf, int offset) {
+		if (buf.limit() > offset + 3) {
+            int b1 = buf.get(offset) & 0xFF;
+            int b2 = buf.get(offset + 1) & 0xFF;
+            int b3 = buf.get(offset + 2) & 0xFF;
+            int b4 = buf.get(offset + 3) & 0xFF;
+
+            switch (b1) {
+                case 0xEF:
+                    if (b2 == 0xBB && b3 == 0xBF) {
+                        return DetectedCharset.UTF_8;
+                    }
+                    break;
+                case 0xFE:
+                    if (b2 == 0xFF && b3 == 0x00 && b4 == 0x00) {
+                        return DetectedCharset.X_ISO_10646_UCS_4_3412;
+                    } else if (b2 == 0xFF) {
+                        return DetectedCharset.UTF_16BE;
+                    }
+                    break;
+                case 0x00:
+                    if (b2 == 0x00 && b3 == 0xFE && b4 == 0xFF) {
+                        return DetectedCharset.UTF_32BE;
+                    } else if (b2 == 0x00 && b3 == 0xFF && b4 == 0xFE) {
+                        return DetectedCharset.X_ISO_10646_UCS_4_2143;
+                    }
+                    break;
+                case 0xFF:
+                    if (b2 == 0xFE && b3 == 0x00 && b4 == 0x00) {
+                        return DetectedCharset.UTF_32LE;
+                    } else if (b2 == 0xFE) {
+                        return DetectedCharset.UTF_16LE;
+                    }
+                    break;
+                default:
+                    break;
+            } // swich end
+        }
+        return null;
 	}
     /**
      * Marks end of data reading. Finish calculations.
@@ -275,7 +302,7 @@ public final class UniversalDetector {
         if (!this.gotData) {
             return;
         }
-        
+
         if (this.detectedCharset != null) {
             this.done = true;
             if (this.listener != null) {
@@ -283,7 +310,7 @@ public final class UniversalDetector {
             }
             return;
         }
-        
+
         if (this.inputState == InputState.HIGHBYTE) {
             float proberConfidence;
             float maxProberConfidence = 0.0f;
@@ -296,7 +323,7 @@ public final class UniversalDetector {
                     maxProber = i;
                 }
             }
-            
+
             if (maxProberConfidence > MINIMUM_THRESHOLD) {
                 this.detectedCharset = this.probers[maxProber].getCharset();
                 if (this.listener != null) {
@@ -311,7 +338,7 @@ public final class UniversalDetector {
             // do nothing
         }
     }
-    
+
     /**
      * Resets detector to be used again.
      */
@@ -322,7 +349,7 @@ public final class UniversalDetector {
         this.gotData = false;
         this.inputState = InputState.PURE_ASCII;
         this.lastChar = 0;
-        
+
         if (this.escCharsetProber != null) {
             this.escCharsetProber.reset();
         }
@@ -333,7 +360,7 @@ public final class UniversalDetector {
             }
         }
     }
-    
+
     /**
      * Gets the charset of a File.
      *
