@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.glavo"
-version = "1.0--SNAPSHOT"
+version = "2.4.0-beta1-SNAPSHOT"
 
 repositories {
     mavenCentral()
