@@ -48,9 +48,16 @@ public class EncodingDetectorOutputStream extends OutputStream {
         detector.dataEnd();
     }
 
-
     public void flush() throws IOException {
         out.flush();
+    }
+
+    public void write(int b) throws IOException {
+        this.write(new byte[]{(byte) b});
+    }
+
+    public void write(byte[] b) throws IOException {
+        this.write(b, 0, b.length);
     }
 
     public void write(byte[] b, int off, int len) throws IOException {
@@ -58,15 +65,6 @@ public class EncodingDetectorOutputStream extends OutputStream {
         if (!detector.isDone()) {
             detector.handleData(b, off, len);
         }
-
-    }
-
-    public void write(byte[] b) throws IOException {
-        this.write(b, 0, b.length);
-    }
-
-    public void write(int b) throws IOException {
-        this.write(new byte[]{(byte) b});
     }
 
     /**

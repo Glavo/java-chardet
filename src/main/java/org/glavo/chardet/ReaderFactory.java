@@ -48,7 +48,7 @@ public final class ReaderFactory {
      * Create a reader from a file with correct encoding
      *
      * @param file           The file to read from
-     * @param defaultCharset defaultCharset to use if can't be determined
+     * @param defaultCharset defaultCharset to use if it can't be determined
      * @return BufferedReader for the file with the correct encoding
      * @throws IOException if some I/O error occurs
      */

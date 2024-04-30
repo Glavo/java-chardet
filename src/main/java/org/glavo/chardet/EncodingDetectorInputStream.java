@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Stream that detect encoding while reading.
+ * Stream that detects encoding while reading.
  * The normal usage is to fully read from inputstream and call close before check for charset.
  *
  */
@@ -68,7 +68,7 @@ public class EncodingDetectorInputStream extends InputStream {
 		byte[] data = new byte[1];
 		int nrOfBytesRead = this.read(data, 0, 1);
 		if (nrOfBytesRead >= 0){
-			return data[0];
+			return data[0] & 0xFF;
 		}
 		return -1;
 	}

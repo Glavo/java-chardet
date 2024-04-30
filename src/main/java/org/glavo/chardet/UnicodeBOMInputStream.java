@@ -101,14 +101,14 @@ public class UnicodeBOMInputStream extends InputStream {
 
     } // BOM
 
-    private final PushbackInputStream in;
+    private final InputStream in;
     private final BOM bom;
     private boolean skipped = false;
 
 
     /**
      * Constructs a new <code>UnicodeBOMInputStream</code> that wraps the
-     * specified <code>InputStream</code>. By default skip BOM bytes
+     * specified <code>InputStream</code>. By default, skip BOM bytes.
      *
      * @param inputStream an <code>InputStream</code>.
      * @throws NullPointerException when <code>inputStream</code> is
@@ -121,7 +121,6 @@ public class UnicodeBOMInputStream extends InputStream {
         this(inputStream, true);
     }
 
-
     /**
      * Constructs a new <code>UnicodeBOMInputStream</code> that wraps the
      * specified <code>InputStream</code>.
@@ -133,13 +132,36 @@ public class UnicodeBOMInputStream extends InputStream {
      * @throws IOException          on reading from the specified <code>InputStream</code>
      *                              when trying to detect the Unicode BOM.
      */
-    public UnicodeBOMInputStream(final InputStream inputStream,
-                                 boolean skipIfFound) throws IOException {
+    public UnicodeBOMInputStream(final InputStream inputStream, boolean skipIfFound) throws IOException {
+        this(inputStream, skipIfFound, true);
+    }
+
+
+    /**
+     * Constructs a new <code>UnicodeBOMInputStream</code> that wraps the
+     * specified <code>InputStream</code>.
+     *
+     * @param inputStream an <code>InputStream</code>.
+     * @param skipIfFound to automatically skip BOM bytes if found
+     * @param useMark to select whether to call the mark/reset of the {@code inputStream}
+     * @throws NullPointerException when <code>inputStream</code> is
+     *                              <code>null</code>.
+     * @throws IOException          on reading from the specified <code>InputStream</code>
+     *                              when trying to detect the Unicode BOM.
+     */
+    public UnicodeBOMInputStream(final InputStream inputStream, boolean skipIfFound, boolean useMark) throws IOException {
         if (inputStream == null) {
             throw new NullPointerException(
                     "invalid input stream: null is not allowed");
         }
-        in = new PushbackInputStream(inputStream, 4);
+
+        if (useMark && inputStream.markSupported()) {
+            inputStream.mark(4);
+            this.in = inputStream;
+        } else {
+            useMark = false;
+            this.in = new PushbackInputStream(inputStream, 4);
+        }
 
         final byte[] bom = new byte[4];
         final int read = in.read(bom);
@@ -178,12 +200,15 @@ public class UnicodeBOMInputStream extends InputStream {
         }
 
         if (read > 0) {
-            in.unread(bom, 0, read);
+            if (useMark) {
+                in.reset();
+            } else {
+                ((PushbackInputStream) in).unread(bom, 0, read);
+            }
         }
         if (skipIfFound) {
             this.skipBOM();
         }
-
     }
 
     /**
@@ -205,7 +230,7 @@ public class UnicodeBOMInputStream extends InputStream {
      * @throws IOException when trying to skip the BOM from the wrapped
      *                     <code>InputStream</code> object.
      */
-    public final synchronized UnicodeBOMInputStream skipBOM()
+    public final UnicodeBOMInputStream skipBOM()
             throws IOException {
         if (!skipped) {
             long bytesToSkip = bom.bytes.length;
@@ -229,7 +254,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
-    public int read(final byte b[]) throws IOException {
+    public int read(final byte[] b) throws IOException {
         this.skipped = true;
         return in.read(b, 0, b.length);
     }
@@ -237,7 +262,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
-    public int read(final byte b[], final int off, final int len) throws IOException {
+    public int read(final byte[] b, final int off, final int len) throws IOException {
         this.skipped = true;
         return in.read(b, off, len);
     }
@@ -267,14 +292,15 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
-    public synchronized void mark(final int readlimit) {
+    public void mark(final int readlimit) {
+        this.skipped = true;
         in.mark(readlimit);
     }
 
     /**
      * {@inheritDoc}
      */
-    public synchronized void reset() throws IOException {
+    public void reset() throws IOException {
         in.reset();
     }
 
