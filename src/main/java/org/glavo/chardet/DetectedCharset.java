@@ -30,9 +30,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 
 /**
+ * Represents the detected encoding.
+ * <p>
+ * Some encodings may not be supported by the current environment,
+ * so calling the {@linkplain #getCharset()} on them will throw a {@linkplain UnsupportedCharsetException}.
+ * You can check whether it is supported by the current environment through {@linkplain #isSupported()}.
+ *
  * @author Glavo
  */
 public final class DetectedCharset {
+
+    //
+    // The following encodings are supported by all environments.
+    //
 
     public static final DetectedCharset US_ASCII = new DetectedCharset("US-ASCII", StandardCharsets.US_ASCII);
     public static final DetectedCharset UTF_8 = new DetectedCharset("UTF-8", StandardCharsets.UTF_8);
@@ -41,13 +51,17 @@ public final class DetectedCharset {
     public static final DetectedCharset UTF_32LE = new DetectedCharset("UTF-32LE");
     public static final DetectedCharset UTF_32BE = new DetectedCharset("UTF-32BE");
 
+    //
+    // The following encodings are optional and some environments may not support them
+    //
+
     public static final DetectedCharset ISO_2022_JP = new DetectedCharset("ISO-2022-JP");
     public static final DetectedCharset ISO_2022_CN = new DetectedCharset("ISO-2022-CN");
     public static final DetectedCharset ISO_2022_KR = new DetectedCharset("ISO-2022-KR");
     public static final DetectedCharset ISO_8859_5 = new DetectedCharset("ISO-8859-5");
     public static final DetectedCharset ISO_8859_7 = new DetectedCharset("ISO-8859-7");
     public static final DetectedCharset ISO_8859_8 = new DetectedCharset("ISO-8859-8");
-    public static final DetectedCharset BIG5 = new DetectedCharset("BIG5");
+    public static final DetectedCharset BIG5 = new DetectedCharset("Big5");
     public static final DetectedCharset GB18030 = new DetectedCharset("GB18030");
     public static final DetectedCharset EUC_JP = new DetectedCharset("EUC-JP");
     public static final DetectedCharset EUC_KR = new DetectedCharset("EUC-KR");
@@ -63,7 +77,10 @@ public final class DetectedCharset {
     public static final DetectedCharset WINDOWS_1255 = new DetectedCharset("windows-1255");
     public static final DetectedCharset TIS620 = new DetectedCharset("TIS-620");
 
-    // WARNING: Listed below are charsets, which Java does not support.
+    //
+    // The following encodings are not supported by Java.
+    //
+
     public static final DetectedCharset HZ_GB_2312 = new DetectedCharset("HZ-GB-2312", null); // Simplified Chinese
     public static final DetectedCharset X_ISO_10646_UCS_4_3412 = new DetectedCharset("X-ISO-10646-UCS-4-3412", null); // Malformed UTF-32
     public static final DetectedCharset X_ISO_10646_UCS_4_2143 = new DetectedCharset("X-ISO-10646-UCS-4-2143", null); // Malformed UTF-32

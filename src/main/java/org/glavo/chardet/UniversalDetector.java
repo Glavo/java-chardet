@@ -365,7 +365,7 @@ public final class UniversalDetector {
      * Gets the charset of a File.
      *
      * @param file The file to check charset for
-     * @return The charset of the file, null if cannot be determined
+     * @return The charset of the file, null if it cannot be determined
      * @throws IOException if some IO error occurs
      */
     public static DetectedCharset detectCharset(File file) throws IOException {
@@ -376,7 +376,7 @@ public final class UniversalDetector {
      * Gets the charset of a Path.
      *
      * @param path The path to file to check charset for
-     * @return The charset of the file, null if cannot be determined
+     * @return The charset of the file, null if it cannot be determined
      * @throws IOException if some IO error occurs
      */
     public static DetectedCharset detectCharset(Path path) throws IOException {
@@ -389,7 +389,7 @@ public final class UniversalDetector {
      * Gets the charset of content from InputStream.
      *
      * @param inputStream InputStream containing text file
-     * @return The charset of the file, null if cannot be determined
+     * @return The charset of the file, null if it cannot be determined
      * @throws IOException if some IO error occurs
      */
     public static DetectedCharset detectCharset(InputStream inputStream) throws IOException {
