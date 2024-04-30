@@ -1,4 +1,4 @@
-# Chardet
+# Java Chardet
 
 [![Latest release](https://img.shields.io/maven-central/v/org.glavo/chardet)](https://github.com/Glavo/java-chardet/releases/latest)
 
