@@ -43,7 +43,7 @@ Maven:
 
 Gradle:
 ```kotlin
-implementation("org.glavo.kala:chardet:2.4.0-beta1")
+implementation("org.glavo:chardet:2.4.0-beta1")
 ```
 
 ## License
