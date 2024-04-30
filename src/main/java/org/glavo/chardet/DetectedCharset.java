@@ -123,6 +123,11 @@ public final class DetectedCharset {
         return charset;
     }
 
+    public Charset getCharset(Charset defaultCharset) {
+        initCharset();
+        return charset != null ? charset : defaultCharset;
+    }
+
     public boolean isSupported() {
         initCharset();
         return charset != null;
