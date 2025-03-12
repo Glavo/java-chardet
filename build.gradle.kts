@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "org.glavo"
-version = "2.5.0"// + "-SNAPSHOT"
+version = "2.5.0.1" + "-SNAPSHOT"
 description = "Java Chardet is a Java encoding detector library"
 
 repositories {
