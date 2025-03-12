@@ -62,7 +62,6 @@ public final class UniversalDetector {
     ////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////
-    public static final float SHORTCUT_THRESHOLD = 0.95f;
     public static final float MINIMUM_THRESHOLD = 0.20f;
 
 
@@ -90,16 +89,16 @@ public final class UniversalDetector {
 
     private CharsetListener listener;
 
-
-    ////////////////////////////////////////////////////////////////
-    // methods
-    ////////////////////////////////////////////////////////////////
-
+    /**
+     * Create UniversalDetector
+     */
     public UniversalDetector() {
         this(null);
     }
 
     /**
+     * Create UniversalDetector
+     *
      * @param listener a listener object that is notified of
      *                 the detected encocoding. Can be null.
      */
@@ -175,12 +174,16 @@ public final class UniversalDetector {
         if (this.done) {
             return;
         }
+        if (length == 0) {
+            return;
+        }
 
         if (length > 0) {
             this.gotData = true;
         }
 
         if (this.start) {
+            // Check utf8 for the first bytes
             this.start = false;
             if (length > 3) {
                 DetectedCharset detectedBOM = detectCharsetFromBOM(buf, offset);
@@ -190,7 +193,7 @@ public final class UniversalDetector {
                     return;
                 }
             }
-        } // if (start) end
+        }
 
         int maxPos = offset + length;
         for (int i = offset; i < maxPos; ++i) {
@@ -253,11 +256,7 @@ public final class UniversalDetector {
         }
     }
 
-    public static DetectedCharset detectCharsetFromBOM(final byte[] buf) {
-        return detectCharsetFromBOM(ByteBuffer.wrap(buf), 0);
-    }
-
-    private static DetectedCharset detectCharsetFromBOM(final ByteBuffer buf, int offset) {
+    protected static DetectedCharset detectCharsetFromBOM(final ByteBuffer buf, int offset) {
         if (buf.limit() > offset + 3) {
             int b1 = buf.get(offset) & 0xFF;
             int b2 = buf.get(offset + 1) & 0xFF;
@@ -293,7 +292,7 @@ public final class UniversalDetector {
                     break;
                 default:
                     break;
-            } // swich end
+            }
         }
         return null;
     }
@@ -308,9 +307,7 @@ public final class UniversalDetector {
 
         if (this.detectedCharset != null) {
             this.done = true;
-            if (this.listener != null) {
-                this.listener.report(this.detectedCharset);
-            }
+            notifyListener(this.detectedCharset);
             return;
         }
 
@@ -329,14 +326,13 @@ public final class UniversalDetector {
 
             if (maxProberConfidence > MINIMUM_THRESHOLD) {
                 this.detectedCharset = this.probers[maxProber].getCharset();
-                if (this.listener != null) {
-                    this.listener.report(this.detectedCharset);
-                }
+                notifyListener(this.detectedCharset);
             }
         } else if (this.inputState == InputState.ESC_ASCII) {
             // do nothing
         } else if (this.inputState == InputState.PURE_ASCII && this.onlyPrintableASCII) {
             this.detectedCharset = DetectedCharset.US_ASCII;
+            notifyListener(this.detectedCharset);
         } else {
             // do nothing
         }
@@ -361,6 +357,12 @@ public final class UniversalDetector {
             if (prober != null) {
                 prober.reset();
             }
+        }
+    }
+
+    private void notifyListener(DetectedCharset detectedCharset) {
+        if (this.listener != null && detectedCharset != null) {
+            this.listener.report(detectedCharset);
         }
     }
 

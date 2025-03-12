@@ -3,7 +3,7 @@
 [![Latest release](https://img.shields.io/maven-central/v/org.glavo/chardet)](https://github.com/Glavo/java-chardet/releases/latest)
 
 This library is a fork of [albfernandez/juniversalchardet](https://github.com/albfernandez/juniversalchardet),
-based on commit [ff74981](https://github.com/albfernandez/juniversalchardet/commit/ff7498139012dfc82e2b6c0a8eb257a9c1fd657f).
+based on commit [5a50f8a](https://github.com/albfernandez/juniversalchardet/commit/5a50f8a067d51a9a77185b31aa2efa26280020ad).
 
 The purpose of this library is to detect the encoding of unknown encoded text.
 
