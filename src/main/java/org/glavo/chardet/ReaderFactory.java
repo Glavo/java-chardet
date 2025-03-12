@@ -76,7 +76,6 @@ public final class ReaderFactory {
         return createBufferedReader(file, StandardCharsets.UTF_8);
     }
 
-
     /**
      * Create a reader from a byte array with correct encoding
      *
