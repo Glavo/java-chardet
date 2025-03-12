@@ -37,13 +37,13 @@ Maven:
 <dependency>
   <groupId>org.glavo</groupId>
   <artifactId>chardet</artifactId>
-  <version>2.4.0-beta1</version>
+  <version>2.5.0</version>
 </dependency>
 ```
 
 Gradle:
 ```kotlin
-implementation("org.glavo:chardet:2.4.0-beta1")
+implementation("org.glavo:chardet:2.5.0")
 ```
 
 ## License
