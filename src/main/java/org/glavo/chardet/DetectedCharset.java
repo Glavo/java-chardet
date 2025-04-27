@@ -38,63 +38,63 @@ import java.nio.charset.UnsupportedCharsetException;
  *
  * @author Glavo
  */
-public final class DetectedCharset {
+public enum DetectedCharset {
 
     //
     // The following encodings are supported by all environments.
     //
 
-    public static final DetectedCharset US_ASCII = new DetectedCharset("US-ASCII", StandardCharsets.US_ASCII);
-    public static final DetectedCharset UTF_8 = new DetectedCharset("UTF-8", StandardCharsets.UTF_8);
-    public static final DetectedCharset UTF_16LE = new DetectedCharset("UTF-16LE", StandardCharsets.UTF_16LE);
-    public static final DetectedCharset UTF_16BE = new DetectedCharset("UTF-16BE", StandardCharsets.UTF_16BE);
-    public static final DetectedCharset UTF_32LE = new DetectedCharset("UTF-32LE");
-    public static final DetectedCharset UTF_32BE = new DetectedCharset("UTF-32BE");
+    US_ASCII("US-ASCII", StandardCharsets.US_ASCII),
+    UTF_8("UTF-8", StandardCharsets.UTF_8),
+    UTF_16LE("UTF-16LE", StandardCharsets.UTF_16LE),
+    UTF_16BE("UTF-16BE", StandardCharsets.UTF_16BE),
+    UTF_32LE("UTF-32LE"),
+    UTF_32BE("UTF-32BE"),
 
     //
     // The following encodings are optional and some environments may not support them
     //
 
-    public static final DetectedCharset ISO_2022_JP = new DetectedCharset("ISO-2022-JP");
-    public static final DetectedCharset ISO_2022_CN = new DetectedCharset("ISO-2022-CN");
-    public static final DetectedCharset ISO_2022_KR = new DetectedCharset("ISO-2022-KR");
-    public static final DetectedCharset ISO_8859_5 = new DetectedCharset("ISO-8859-5");
-    public static final DetectedCharset ISO_8859_7 = new DetectedCharset("ISO-8859-7");
-    public static final DetectedCharset ISO_8859_8 = new DetectedCharset("ISO-8859-8");
-    public static final DetectedCharset BIG5 = new DetectedCharset("Big5");
-    public static final DetectedCharset GB18030 = new DetectedCharset("GB18030");
-    public static final DetectedCharset EUC_JP = new DetectedCharset("EUC-JP");
-    public static final DetectedCharset EUC_KR = new DetectedCharset("EUC-KR");
-    public static final DetectedCharset EUC_TW = new DetectedCharset("EUC-TW");
-    public static final DetectedCharset SHIFT_JIS = new DetectedCharset("Shift_JIS");
-    public static final DetectedCharset IBM855 = new DetectedCharset("IBM855");
-    public static final DetectedCharset IBM866 = new DetectedCharset("IBM866");
-    public static final DetectedCharset KOI8_R = new DetectedCharset("KOI8-R");
-    public static final DetectedCharset MAC_CYRILLIC = new DetectedCharset("MacCyrillic");
-    public static final DetectedCharset WINDOWS_1251 = new DetectedCharset("windows-1251");
-    public static final DetectedCharset WINDOWS_1252 = new DetectedCharset("windows-1252");
-    public static final DetectedCharset WINDOWS_1253 = new DetectedCharset("windows-1253");
-    public static final DetectedCharset WINDOWS_1255 = new DetectedCharset("windows-1255");
-    public static final DetectedCharset TIS620 = new DetectedCharset("TIS-620");
+    ISO_2022_JP("ISO-2022-JP"),
+    ISO_2022_CN("ISO-2022-CN"),
+    ISO_2022_KR("ISO-2022-KR"),
+    ISO_8859_5("ISO-8859-5"),
+    ISO_8859_7("ISO-8859-7"),
+    ISO_8859_8("ISO-8859-8"),
+    BIG5("Big5"),
+    GB18030("GB18030"),
+    EUC_JP("EUC-JP"),
+    EUC_KR("EUC-KR"),
+    EUC_TW("EUC-TW"),
+    SHIFT_JIS("Shift_JIS"),
+    IBM855("IBM855"),
+    IBM866("IBM866"),
+    KOI8_R("KOI8-R"),
+    MAC_CYRILLIC("MacCyrillic"),
+    WINDOWS_1251("windows-1251"),
+    WINDOWS_1252("windows-1252"),
+    WINDOWS_1253("windows-1253"),
+    WINDOWS_1255("windows-1255"),
+    TIS620("TIS-620"),
 
     //
     // The following encodings are not supported by Java.
     //
 
-    public static final DetectedCharset HZ_GB_2312 = new DetectedCharset("HZ-GB-2312", null); // Simplified Chinese
-    public static final DetectedCharset X_ISO_10646_UCS_4_3412 = new DetectedCharset("X-ISO-10646-UCS-4-3412", null); // Malformed UTF-32
-    public static final DetectedCharset X_ISO_10646_UCS_4_2143 = new DetectedCharset("X-ISO-10646-UCS-4-2143", null); // Malformed UTF-32
+    HZ_GB_2312("HZ-GB-2312", null), // Simplified Chinese
+    X_ISO_10646_UCS_4_3412("X-ISO-10646-UCS-4-3412", null), // Malformed UTF-32
+    X_ISO_10646_UCS_4_2143("X-ISO-10646-UCS-4-2143", null); // Malformed UTF-32
 
     private final String name;
     private Charset charset;
     private boolean needInit;
 
-    private DetectedCharset(String name) {
+    DetectedCharset(String name) {
         this.name = name;
         this.needInit = true;
     }
 
-    private DetectedCharset(String name, Charset charset) {
+    DetectedCharset(String name, Charset charset) {
         this.name = name;
         this.charset = charset;
         this.needInit = false;
@@ -131,22 +131,6 @@ public final class DetectedCharset {
     public boolean isSupported() {
         initCharset();
         return charset != null;
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof DetectedCharset)) {
-            return false;
-        }
-        return name.equals(((DetectedCharset) o).name);
     }
 
     @Override
